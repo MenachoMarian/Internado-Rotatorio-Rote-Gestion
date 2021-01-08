@@ -1,0 +1,117 @@
+/*  1b2127 
+4C5F71  4F5A6B   393D47      
+285780   3E6991   4E769B   5C82A5
+A4BCC2
+EDE6DB marfil*/
+.Body {
+  border: 1px solid blue;
+  background-color: #ede6db;
+  height: 1000px;
+  font-family: "Roboto Slab", "Noto Sans", sans-serif;
+}
+
+.hero {
+  border-radius: 10px;
+  height: 150px;
+  color: white;
+  background-color: #393d47;
+  display: flex;
+  align-items: center;
+  /*justify-content: space-between;*/
+}
+.hero-logo {
+  height: 130px;
+  width: 130px;
+  padding: 7px;
+}
+
+.hero-text {
+  padding: 3px;
+}
+
+.hero a {
+  text-decoration: none;
+  color: white;
+  height: inherit;
+  display: flex;
+  padding: 0 10px;
+  font-weight: 200px;
+}
+
+.menu {
+  align-items: inherit;
+}
+
+.menu ol {
+  display: inline-flex;
+  /*justify-content: right;*/
+  flex-wrap: wrap;
+}
+
+.menu li {
+  list-style: none;
+  margin-top: 18px;
+}
+
+.contenido {
+  border: 1px solid red;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 50px;
+}
+
+.botones-insert {
+  border-radius: 10px;
+  background-color: #ede6db;
+  padding: 10px 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.23);
+  display: flex;
+  flex-direction: inherit;
+  align-items: inherit;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.lista-doc {
+  background-color: #ede6db;
+
+  flex-direction: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+}
+
+.lista-doc-item {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.23);
+  border-radius: 5px;
+  padding: 1rem;
+  flex-direction: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+}
+
+.lista-doc-item ol {
+  list-style: none;
+}
+
+/*.container-list {
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 1000px;
+  border: 1px solid red;
+}*/
+
+.form-register {
+  border-radius: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.23);
+  display: flex;
+  flex-direction: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+  padding: 25px 50px;
+  flex-wrap: wrap;
+}
