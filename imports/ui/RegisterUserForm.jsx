@@ -1,5 +1,9 @@
-import React, { useState} from 'react';
-import { UsersCollection } from '../db/UsersCollection';
+
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+import React, { useState, Fragment} from 'react';
+import { useTracker } from 'meteor/react-meteor-data';
+import { UsersCollection } from '../db/ListsCollection';
 import {
     BrowserRouter as Router,
     Switch,
@@ -7,85 +11,78 @@ import {
     Link,
     useLocation
   } from "react-router-dom";
+  import { useHistory } from "react-router-dom";
   
   
   
   import '../styles/Styles.css';
   import imagenes from '../images/imagenes'
+import { Nav } from './Navbar';
+import {Home} from './Home';
+import { App } from './App';
 
 export const RegisterUserForm = () => {
 
-    const [user, setUser] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const history = useHistory();
+    const user = useTracker(() => Meteor.user());
     //const [email, setEmail]=useState("");
 
     const handleSubmit = e => {
         e.preventDefault();
 
-        if(!user) return;
-        if(!password) return;
-       // if(!email) return;
+                Accounts.createUser({
+                    username: username,
+                    password: password,
+                });
 
-        if(!UsersCollection.find(user)){
-
-            UsersCollection.insert({
-                usuario: user,
-                contraseña: password,
-                //correo: email,
-                createAt: new Date()
-            });
-        }
-        else {
-            console.log("Usuario ya existe");
-            //prompt('Usuario ya existe');
-            
-        }
-
-        
-        setUser("");
-        setPassword("");
-        //setEmail("");  
+        setUsername("");
+        setPassword("");    
+        history.push("/Home");
     };
 
-
 return (
-    <div className="Body">
-        <div className="hero">
-            <img className="hero-logo" src={imagenes[0].img} alt="UATF"/>
-            <h1 className ="hero-text">Universidad Autónoma Tomás Frías</h1>
-            <nav className="menu">
-                <ol>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                </ol>
-            </nav>
-        </div>
-        <div className="contenido">
+    <div>
+          {user ? (
+          <Fragment>
+            <App/>
+          </Fragment>
+        ) : (
+        <div className="Body">
+            <div className="hero">
+                <Nav/>
+            </div>
+            <div className="contenido"> 
 
-            <form className="form-register" onSubmit={handleSubmit}>
-                Nombre de usuario:<input 
-                type="text"
-                placeholder="Nombre de usuario"
-                value={user} 
-                onChange={(e) => setUser(e.target.value)} 
-                /> <br/>
-                Contraseña:<input 
-                type="password"
-                placeholder="Password"
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                />
-                
-                <button
-                    type="submit"
-                    className="btn btn-dark" 
-                    >
-                        Registrarse
-                    </button>
-            </form>
+                <form className="form-register" onSubmit={handleSubmit}>
+                <h4>Registro:</h4> <br/>
+                    Nombre de usuario:<input 
+                    type="text"
+                    placeholder="Nombre de usuario"
+                    value={username} 
+                    onChange={(e) => setUsername(e.target.value)} 
+                    /> <br/>
+                    Contraseña:<input 
+                    type="password"
+                    placeholder="Password"
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    /> <br/>
+
+                        <button
+                        type="submit"
+                        className="btn btn-dark" 
+                        > 
+                        Registrarse   
+                        </button>
+                </form>
+            </div>
         </div>
-    </div>
+        )}
+
+        
+    </div> 
         
     );
 };

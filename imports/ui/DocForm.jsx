@@ -11,6 +11,7 @@ import {
 
 import '../styles/Styles.css';
 import imagenes from '../images/imagenes'
+import { Nav } from './Navbar';
 
 
 export const DocumentoForm = () => {
@@ -43,14 +44,16 @@ export const DocumentoForm = () => {
         <div className="Body">
 
             <div className="hero">
-                <img className="hero-logo" src={imagenes[0].img} alt="UATF"/>
-                <h1 className ="hero-text">Universidad Autónoma Tomás Frías</h1>
+                <Nav/>
                 <nav className="menu">
-                    <ul>
+                    <ol>
                         <li>
-                            <Link to="/">Home</Link>
+                            <Link to="/Home">Home</Link>
                         </li>
-                    </ul>
+                        <li>
+                            <Link to="/">Salir</Link>
+                        </li>
+                    </ol>
                 </nav>
             </div>
 

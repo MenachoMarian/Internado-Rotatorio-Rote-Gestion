@@ -75,7 +75,6 @@ EDE6DB marfil*/
 
 .lista-doc {
   background-color: #ede6db;
-
   flex-direction: inherit;
   justify-content: inherit;
   align-items: inherit;
@@ -114,4 +113,10 @@ EDE6DB marfil*/
   justify-content: inherit;
   padding: 25px 50px;
   flex-wrap: wrap;
+}
+
+h4 {
+  text-shadow: #393d47 -1px 1px;
+  color: white;
+  letter-spacing: 1px;
 }

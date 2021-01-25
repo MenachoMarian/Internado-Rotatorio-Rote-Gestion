@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { ListsCollection } from '../imports/db/ListsCollection';
+import { DocumentsCollection } from '../imports/db/ListsCollection';
 
 
 //const insertList = listText => ListsCollection.insert({ text: listText });
