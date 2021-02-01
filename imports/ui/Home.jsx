@@ -17,14 +17,15 @@ import {
   useLocation
 } from "react-router-dom";
 
-import { DocumentsCollection } from '../db/ListsCollection';
+import { UsersCollection } from '../db/ListsCollection';
 import UploadService from "../services/FileUploadService";
 
 import '../styles/Styles.css';
 import imagenes from '../images/imagenes'
 
 
-const deleteTask = ({_id}) => ListsCollection.remove(_id);
+
+//const deleteTask = ({_id}) => ListsCollection.remove(_id);
 
 
 export const Home = () => {
@@ -33,8 +34,6 @@ export const Home = () => {
   const logout = () => Meteor.logout();
 
   console.log(user);
-
-
  // const lists = useTracker(() => ListsCollection.find({},{ fields: { _id: 1 }}, { sort: { createdAt: 1 } }).fetch());
  
 
@@ -50,6 +49,7 @@ return (
                 <ol>
                   <li>
                     <Link to="/UploadFile">Insertar Doc</Link>
+                    <Link to="/TextEditor">Redactar Doc</Link>
                   </li>
                 </ol>
               </nav>

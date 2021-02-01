@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import UploadService from "../services/FileUploadService";
 
 import { DocumentsCollection } from '../db/ListsCollection';
+import { CategoriasCollection } from '../db/ListsCollection';
 
 import {
     BrowserRouter as Router,
@@ -16,14 +17,19 @@ import {
   } from "react-router-dom";
 
 import '../styles/Styles.css';
+import imagenes from '../images/imagenes'
+import { Button, Popover, PopoverHeader, PopoverBody,UncontrolledPopover } from 'reactstrap';
+
 import { Nav } from "./Navbar";
 import { App } from './App';
 
 
 export const UploadFiles = () => {
+
   
   const [nombre, setNombre] = useState("");
   const [type, setType] = useState("");
+  const [number, setNumber] = useState("");
   //const [iden, setIden] = useState("");
 
   const [selectedFiles, setSelectedFiles] = useState(undefined);
@@ -31,12 +37,29 @@ export const UploadFiles = () => {
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
   const [fileInfos, setFileInfos] = useState([]);
+
   
   
+
+
 
   const user = useTracker(() => Meteor.user());
   const logout = () => Meteor.logout();
   
+  const { cats, docs} = useTracker(() => {
+        const handler = Meteor.subscribe('categorias');
+        if(!handler.ready()) {
+          console.log("no hay");
+        }
+        const cats = CategoriasCollection.find().fetch();
+
+        const handlerdocs = Meteor.subscribe('documents');
+        if(!handlerdocs.ready()){
+          console.log("No documents");
+        }
+        const docs = DocumentsCollection.find().count();
+        return {cats, docs };
+    });
  
   
 
@@ -44,16 +67,18 @@ export const UploadFiles = () => {
     UploadService.getFiles().then((response) => {
       setFileInfos(response.data);
       const num = response.data[0]._id;
-      console.log(num);
+
     });
   }, []);
-
-  
-
 
   const selectFile = (event) => {
     setSelectedFiles(event.target.files);
   };
+
+
+
+
+  
 
   const upload = () => {
 
@@ -136,26 +161,39 @@ export const UploadFiles = () => {
             </div>
           <div className="contenido">
               <div className="botones-insert">
+                
+                <label > <b>Número documento: </b>{docs + 1}</label>
 
               <form className="doc-form" >
-                        Nombre del documento:
+              
+              Nombre del documento:
                         <input 
                             type="text"
                             value={nombre}
-                            onChange={(e) => setNombre(e.target.value)}
+                            onChange={(e) => setNombre(e.currentTarget.value)}
                         /><br/><br/>
-                        Tipo de documento: 
-                        <select
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}>
-                            <option 
-                                value="carta">Carta</option>
-                            <option value="circular">Circular</option>
-                            <option value="reporte">Reporte</option>
-                        </select >
-                    
+      
+             Tipo de documento: <select 
+                                  required
+                                  className="dropdown"
+                                  value={type}
+                                  onChange={(e) =>setType(e.currentTarget.value)}>
+                                    <option value="Undefined" defaultValue> Seleccionar categoría</option>
+                                 {cats.map(cat => (
+                                    <option
+                                      key={cat.code} 
+                                      value={cat.code}
+                                      >
+                                        {cat.categoria}    ({cat.code})
+                                    </option>
+                                  ))}
+                                </select>
+              <button 
+                  className="btn btn-dark" >
+                  <Link to="/nuevacategoria">Agregar categoria</Link>
+              </button><br/><br/>          
 
-                  <label className="btn btn-default">
+             Documento: <label className="btn btn-default">
                       <input type="file" onChange={selectFile} />
                   </label>
 
@@ -179,10 +217,26 @@ export const UploadFiles = () => {
                               <ol key={index}>
 
                                 <li>
+                                  {file.universidad}/{file.facultad}/{file.carrera}/{file.categoria}/{file.numero}<br/>
                                   <label><b>{file.nombre}:  </b></label>
-                                  <a href={file.link}>{file.picture}</a><br/>
-                                 {file.categoria}
+                                  <a href={file.link} >{file.picture}</a><br/>
+
+                                  <Button id={file.identi} type="button">
+                                    Vista previa
+                                  </Button>
+                                  
+                                    <UncontrolledPopover trigger="legacy" placement="right" target={file.identi} className="my-custom-popover">
+                                      <PopoverHeader>Vista previa</PopoverHeader>
+                                      <PopoverBody>
+                                        <img src={file.link} alt="" height="350px" width="350px"/>
+                                      </PopoverBody>
+                                    </UncontrolledPopover>
+                                  
+
+    
+                                  
                                 </li>
+                                  
 
                                 
                               </ol>

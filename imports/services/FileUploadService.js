@@ -1,7 +1,9 @@
 import http from "../http-common";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 
-const uploadfile =(id,nombre,type,file) => {
+const uploadfile =(id,nombre,type,file,number) => {
   
   var axios = require('axios');
   var qs = require('qs');
@@ -9,6 +11,10 @@ const uploadfile =(id,nombre,type,file) => {
     'nombre': nombre,
     'categoria': type,
     'identi':id,
+    'universidad':'UATF',
+    'facultad':'DCN',
+    'carrera':'CIS',
+    //'numero':number,
   });
 
 
@@ -98,8 +104,6 @@ const uploadimg = (file,iden) => {
 }
 
 
-
-
 const getFiles = () => {
   return http.get("/documento");
 };
@@ -122,10 +126,73 @@ axios(config)
 });
 }
 
+
+
+const uploadtext = (nombre,text) => {
+      var axios = require('axios');
+      var qs = require('qs');
+      var data = qs.stringify({
+      'nombre': nombre,
+      'text': text, 
+      });
+      var config = {
+        method: 'post',
+        url: 'http://localhost:8080/texto',
+        headers: { 
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data : data
+      };
+
+      axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+
+
+
+const getcategoria = () => {
+  return http.get("/categoria");
+}
+
+const insertcategoria = (nombre,code) => {
+          
+          var axios = require('axios');
+          var qs = require('qs');
+          var data = qs.stringify({
+          'categoria': nombre,
+          'code': code, 
+          });
+          var config = {
+            method: 'post',
+            url: 'http://localhost:8080/categoria',
+            headers: { 
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data : data
+          };
+
+          axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+          
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+}
+
 export default {
   upload,
   getFiles,
   uploadfile,
   getlastfile,
   uploadimg,
+  uploadtext,
+  getcategoria,
+  insertcategoria,
 };

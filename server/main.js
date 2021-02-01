@@ -1,7 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { ListsCollection } from '../imports/db/ListsCollection';
 import { DocumentsCollection } from '../imports/db/ListsCollection';
+import { UsersCollection } from '../imports/db/ListsCollection';
 
+
+import '../imports/api/userspublications';
 
 //const insertList = listText => ListsCollection.insert({ text: listText });
 
@@ -14,3 +17,5 @@ import { DocumentsCollection } from '../imports/db/ListsCollection';
     ].forEach(insertList)
   }
 });*/
+
+

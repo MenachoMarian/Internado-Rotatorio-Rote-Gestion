@@ -7,6 +7,8 @@ import { DocumentoForm } from '../ui/DocForm';
 import { LoginForm } from "../ui/LoginForm";
 import {UploadFiles} from "../ui/FileUpload";
 import { List } from '../ui/List';
+import {EditorTexto} from '../ui/EditorTexto';
+import {NewCategory} from '../ui/NewCategory';
 
 /*function Aqui() {
     return (
@@ -43,6 +45,12 @@ export const Rutas = () => {
             </Route>
             <Route exact path="/LoginForm">
                 <LoginForm/>
+            </Route>
+            <Route exact path="/TextEditor">
+                <EditorTexto/>
+            </Route>
+            <Route exact path="/NuevaCategoria">
+                <NewCategory/>
             </Route>
         </Router>
      
