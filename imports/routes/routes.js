@@ -9,6 +9,10 @@ import {UploadFiles} from "../ui/FileUpload";
 import { List } from '../ui/List';
 import {EditorTexto} from '../ui/EditorTexto';
 import {NewCategory} from '../ui/NewCategory';
+import {Uploadotherfiles} from '../ui/Uploadotherfiles';
+import {ExternosRecepcion} from '../ui/ExternosRecepcion';
+import {ExternosEnvio} from '../ui/ExternosEnvio';
+
 
 /*function Aqui() {
     return (
@@ -51,6 +55,15 @@ export const Rutas = () => {
             </Route>
             <Route exact path="/NuevaCategoria">
                 <NewCategory/>
+            </Route>
+            <Route exact path="/OtrosDocumentos">
+                <Uploadotherfiles/>
+            </Route>
+            <Route exact path="/ExternosRecepcion">
+                <ExternosRecepcion/>
+            </Route>
+            <Route exact path="/ExternosEnvio">
+                <ExternosEnvio/>
             </Route>
         </Router>
      

@@ -23,7 +23,7 @@ export const App = () => {
           <Home/>
         </Fragment>    
         ) : (
-              <LoginForm /> 
+          <LoginForm /> 
         )}
     </div>
   )

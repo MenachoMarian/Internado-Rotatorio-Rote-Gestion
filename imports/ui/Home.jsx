@@ -34,6 +34,7 @@ export const Home = () => {
   const logout = () => Meteor.logout();
 
   console.log(user);
+   
  // const lists = useTracker(() => ListsCollection.find({},{ fields: { _id: 1 }}, { sort: { createdAt: 1 } }).fetch());
  
 
@@ -45,17 +46,34 @@ return (
       <div className="Body">
         <div className="hero">
           <Nav/>
+          {user.profile.oficina == "SECRETARIA INGENIERIA DE SISTEMAS" ? (
+            <Fragment>
               <nav className="menu">
                 <ol>
                   <li>
-                    <Link to="/UploadFile">Insertar Doc</Link>
-                    <Link to="/TextEditor">Redactar Doc</Link>
+                    <Link to="/UploadFile">Envio Documentos</Link>
+                    <Link to="/OtrosDocumentos">Recepción Documentos</Link>
                   </li>
                 </ol>
               </nav>
+            </Fragment>    
+          ) : (
+              <Fragment>
+              <nav className="menu">
+                <ol>
+                  <li>
+                    <Link to="/ExternosEnvio">Envio Doc</Link>
+                    <Link to="/ExternosRecepcion">Recepción Doc</Link>
+                  </li>
+                </ol>
+              </nav>
+            </Fragment>  
+          )}
         </div>
+
+
       <div className="user" onClick={logout}>
-            {user.username} 🚪
+            {user.username} 🚪   
       </div>
       <div  className="contenido">   
           <div className="lista-doc">

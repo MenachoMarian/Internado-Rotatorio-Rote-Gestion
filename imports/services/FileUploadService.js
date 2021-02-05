@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 
-const uploadfile =(id,nombre,type,file,number) => {
+const uploadfile =(id,nombre,type,file,userId,usernombre,unidad,num, destino) => {
   
   var axios = require('axios');
   var qs = require('qs');
@@ -11,9 +11,15 @@ const uploadfile =(id,nombre,type,file,number) => {
     'nombre': nombre,
     'categoria': type,
     'identi':id,
+    'userId': userId,
+    'usernombre': usernombre,
+    'useroficina':unidad,
+    'numero':num,
+    'destino':destino,
     'universidad':'UATF',
     'facultad':'DCN',
     'carrera':'CIS',
+    
     //'numero':number,
   });
 
@@ -46,8 +52,6 @@ const uploadfile =(id,nombre,type,file,number) => {
     console.log(error);
   });
 
-
-  
 }
 
 
@@ -105,7 +109,7 @@ const uploadimg = (file,iden) => {
 
 
 const getFiles = () => {
-  return http.get("/documento");
+  return http.get('/documento');
 };
 
 const getlastfile = () =>{
@@ -186,6 +190,56 @@ const insertcategoria = (nombre,code) => {
           });
 }
 
+
+
+const externosuploadfile =(id,nombre,type,file,userId,usernombre,useroficina,destino) => {
+  
+  var axios = require('axios');
+  var qs = require('qs');
+  var data = qs.stringify({
+    'nombre': nombre,
+    'categoria': type,
+    'identi':id,
+    'userId': userId,
+    'usernombre': usernombre,
+    'useroficina':useroficina,
+    'destino':destino,
+    'universidad':'UATF',
+    'facultad':useroficina,
+    'carrera':useroficina,
+  });
+
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost:8080/documentother',
+    headers: { 
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    data : data
+  };
+  
+  axios(config)
+  .then(function (response) {
+    console.log(JSON.stringify(response.data));
+
+
+    let formData = new FormData();
+
+    formData.append("file", file);
+  
+    return http.post("/documentother/uploadImg?identi="+id, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+}
+
 export default {
   upload,
   getFiles,
@@ -195,4 +249,5 @@ export default {
   uploadtext,
   getcategoria,
   insertcategoria,
+  externosuploadfile,
 };
