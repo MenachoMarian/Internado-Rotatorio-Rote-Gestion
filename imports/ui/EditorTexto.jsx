@@ -4,8 +4,13 @@ import React, { useState, Fragment, Children } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useHistory } from "react-router-dom";
 
+//para el Editor
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
+
+
+//para el editor
+
 import parse from 'html-react-parser'
 import ReactHtmlParser from 'react-html-parser';
 
@@ -26,7 +31,15 @@ import '../../client/main.css';
 import '../styles/Styles.css';
 
 
+
+
+
+
 export const EditorTexto = () => {
+
+  
+
+  
   const user = useTracker(() => Meteor.user());
   const logout = () => Meteor.logout();
 
@@ -108,9 +121,10 @@ export const EditorTexto = () => {
                     <option value="circular">Circular</option>
                     <option value="reporte">Reporte</option>
                 </select >
-                    
-                    <CKEditor
+
+                <CKEditor
                         editor={ClassicEditor}
+                        
                         data={text}
                         onChange={(event,editor) => {
                           const data = editor.getData();
@@ -119,15 +133,18 @@ export const EditorTexto = () => {
                       }}
                     />
 
+
                     <button className="btn btn-dark">
                         Cargar
                     </button> <br/>   
               </form>
-              
+
             <div>
               <h2>Contenido:</h2>
               <p>{parse(text)}</p>
             </div>
+
+            
         </div>
     </div>
    

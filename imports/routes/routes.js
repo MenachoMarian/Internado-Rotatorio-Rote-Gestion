@@ -12,6 +12,12 @@ import {NewCategory} from '../ui/NewCategory';
 import {Uploadotherfiles} from '../ui/Uploadotherfiles';
 import {ExternosRecepcion} from '../ui/ExternosRecepcion';
 import {ExternosEnvio} from '../ui/ExternosEnvio';
+import {Buscador} from '../ui/Buscador';
+import {Categoriafiltrar} from '../ui/filtrarCategoria';
+import {Origenfiltrar} from '../ui/filtrarOrigen';
+import {Scanner} from '../ui/Scanner';
+
+import {Editornuevo} from '../ui/nuevoeditor';
 
 
 /*function Aqui() {
@@ -64,6 +70,18 @@ export const Rutas = () => {
             </Route>
             <Route exact path="/ExternosEnvio">
                 <ExternosEnvio/>
+            </Route>
+            <Route exact path="/Buscador">
+                <Buscador/>
+            </Route>
+            <Route exact path="/filtrarCategoria">
+                <Categoriafiltrar/>
+            </Route>
+            <Route exact path="/filtrarOrigen">
+                <Origenfiltrar/>
+            </Route>
+            <Route exact path="/Scanner">
+                <Scanner/>
             </Route>
         </Router>
      

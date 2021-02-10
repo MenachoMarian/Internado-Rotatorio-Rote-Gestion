@@ -48,6 +48,8 @@ export const ExternosEnvio = () => {
 
   const user = useTracker(() => Meteor.user());
   const idddd=  useTracker(() => Meteor.userId());
+
+  const [documento,setDocumento]=useState([]);
   
   const logout = () => Meteor.logout();
   
@@ -75,15 +77,12 @@ export const ExternosEnvio = () => {
     });
  
   
-
+    const docuserr=OtrosDocumentos.find({userId: idddd},{sort: {_id:-1}}).fetch();
+  
   useEffect(() => {
-
-    /*UploadService.getFiles(idddd).then((response) => {
-      setFileInfos(response.data);
-      const num = response.data[0]._id;  */
-
-    });
- // }, []);
+    
+    
+  }, []);
 
   const selectFile = (event) => {
     setSelectedFiles(event.target.files);
@@ -94,7 +93,7 @@ export const ExternosEnvio = () => {
   console.log(Meteor.userId())
 
   
-  const docsuserrr = OtrosDocumentos.find({userId: idddd},{sort: {_id:-1}}).fetch();
+  //setDocumento( OtrosDocumentos.find({userId: idddd},{sort: {_id:-1}}).fetch())
 
 
   const upload = () => {
@@ -192,7 +191,7 @@ export const ExternosEnvio = () => {
                 </button><br/><br/>          
 
                 Documento: <label className="btn btn-default">
-                        <input type="file" onChange={selectFile} />
+                        <input type="file" onChange={(e)=>selectFile(e)} />
                     </label>
 
                     <button
@@ -208,7 +207,7 @@ export const ExternosEnvio = () => {
 
                 <div className="lista-doc">
                     <div className="lista-doc-item">
-                            {docsuserrr.map(doc => (
+                            {docuserr.map(doc => (
                                 <ol key={doc._id}>
 
                                     <li> <b> {doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}</b></li>

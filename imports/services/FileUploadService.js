@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 
-const uploadfile =(id,nombre,type,file,userId,usernombre,unidad,num, destino) => {
+const uploadfile =(id,nombre,type,file,userId,usernombre,unidad,num, destino,gestion) => {
   
   var axios = require('axios');
   var qs = require('qs');
@@ -16,6 +16,7 @@ const uploadfile =(id,nombre,type,file,userId,usernombre,unidad,num, destino) =>
     'useroficina':unidad,
     'numero':num,
     'destino':destino,
+    'gestion': gestion,
     'universidad':'UATF',
     'facultad':'DCN',
     'carrera':'CIS',
@@ -192,7 +193,7 @@ const insertcategoria = (nombre,code) => {
 
 
 
-const externosuploadfile =(id,nombre,type,file,userId,usernombre,useroficina,destino) => {
+const externosuploadfile =(id,nombre,type,file,userId,usernombre,useroficina,destino,gestion) => {
   
   var axios = require('axios');
   var qs = require('qs');
@@ -204,6 +205,7 @@ const externosuploadfile =(id,nombre,type,file,userId,usernombre,useroficina,des
     'usernombre': usernombre,
     'useroficina':useroficina,
     'destino':destino,
+    'gestion': gestion,
     'universidad':'UATF',
     'facultad':useroficina,
     'carrera':useroficina,
@@ -240,6 +242,10 @@ const externosuploadfile =(id,nombre,type,file,userId,usernombre,useroficina,des
 
 }
 
+const getotherfiles = () => {
+  return http.get("/documentother");
+}
+
 export default {
   upload,
   getFiles,
@@ -250,4 +256,5 @@ export default {
   getcategoria,
   insertcategoria,
   externosuploadfile,
+  getotherfiles,
 };

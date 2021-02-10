@@ -3,6 +3,7 @@ import { CategoriasCollection } from '../db/ListsCollection';
 import { DocumentsCollection } from '../db/ListsCollection';
 import { OficinasCollection } from '../db/ListsCollection';
 import { OtrosDocumentos } from '../db/ListsCollection';
+import { GestionCollection } from '../db/ListsCollection';
 
 
 //const insertList = listText => ListsCollection.insert({ text: listText });
@@ -31,4 +32,8 @@ Meteor.publish('oficinas', function publishOficinas() {
 
 Meteor.publish('otrosdocumentos', function publishOtrosDocumentos() {
   return OtrosDocumentos.find();
+});
+
+Meteor.publish('gestiones', function publishGestiones() {
+  return GestionCollection.find();
 });

@@ -31,9 +31,11 @@ import imagenes from '../images/imagenes'
 export const Home = () => {
 
   const user = useTracker(() => Meteor.user());
+  const userId = useTracker(() => Meteor.userId());
   const logout = () => Meteor.logout();
 
   console.log(user);
+  
    
  // const lists = useTracker(() => ListsCollection.find({},{ fields: { _id: 1 }}, { sort: { createdAt: 1 } }).fetch());
  

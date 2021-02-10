@@ -42,17 +42,24 @@ export const RegisterUserForm = () => {
         return {ofis};
     });
 
+    const postregister = () => {
+      console.log();
+      Roles.addUsersToRoles(this.userId, 'normal-user')
+    }
+
 
     const handleSubmit = e => {
         e.preventDefault();
 
-                Accounts.createUser({
+                /*Accounts.createUser({
                     username: username,
                     password: password,
                     profile: {
                         oficina: oficina
                     }
-                });
+                });*/
+                Meteor.call('users.insert', username,password,oficina);
+                
 
         setUsername("");
         setPassword("");    

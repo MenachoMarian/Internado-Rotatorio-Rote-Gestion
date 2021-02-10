@@ -10,6 +10,7 @@ import moment from 'moment';
 import { DocumentsCollection } from '../db/ListsCollection';
 import { CategoriasCollection } from '../db/ListsCollection';
 import { OficinasCollection } from '../db/ListsCollection';
+import { GestionCollection } from '../db/ListsCollection';
 
 import {
     BrowserRouter as Router,
@@ -35,6 +36,7 @@ export const UploadFiles = () => {
   const [number, setNumber] = useState("");
   const [oficina, setOficina] = useState("");
   const [destino, setDestino] = useState("");
+  const [gestion, setGestion] = useState("");
 
   const [useroficina, setUseroficina] = useState();
 
@@ -46,9 +48,9 @@ export const UploadFiles = () => {
   const [message, setMessage] = useState("");
   const [fileInfos, setFileInfos] = useState([]);
 
-  
-  
-
+  const [documento, setDocumento] = useState([]);
+  const [documentoBackup, setDocumentoBackup] = useState([]);
+  const [textBuscar, setTextBuscar] = useState("");
 
 
   const user = useTracker(() => Meteor.user());
@@ -56,10 +58,10 @@ export const UploadFiles = () => {
   
   const logout = () => Meteor.logout();
   
-  const { cats, docs, ofis } = useTracker(() => {
+  const { cats, docs, ofis, gests } = useTracker(() => {
         const handler = Meteor.subscribe('categorias');
         if(!handler.ready()) {
-          console.log("no hay");
+          console.log("no hay categorias");
         }
         const cats = CategoriasCollection.find().fetch();
 
@@ -72,38 +74,88 @@ export const UploadFiles = () => {
 
         const handlerofis = Meteor.subscribe('oficinas');
         if(!handlerofis.ready()) {
-          console.log("no hay");
+          console.log("no hay oficinas");
         }
         const ofis = OficinasCollection.find().fetch();
 
+        const handlergests = Meteor.subscribe('gestiones');
+        if(!handlergests.ready()) {
+          console.log("no hay gestiones");
+        }
+        const gests = GestionCollection.find({},{sort: {_id:-1}}, {limit: 1}).fetch();
+
         
         
-        return {cats, docs, ofis};
+        return {cats, docs, ofis,gests};
     });
  
   
 
-  useEffect(() => {
+useEffect(() => {
 
-    /*UploadService.getFiles(idddd).then((response) => {
-      setFileInfos(response.data);
-      const num = response.data[0]._id;  */
-
-    });
- // }, []);
+  UploadService.getFiles().then((response) => {
+  setDocumento(response.data);
+  setDocumentoBackup(response.data);
+        //console.log(response.data); 
+  });
+}, []);
 
   const selectFile = (event) => {
     setSelectedFiles(event.target.files);
     console.log(selectedFiles);
   };
 
+  //console.log(Meteor.userId())
+  //console.log(gests);
+  //const docsuserrr = DocumentsCollection.find({},{sort: {_id:-1}}).fetch();
 
-  console.log(Meteor.userId())
+  const filter =(event)=>{
+    console.log(event.target.value);
+    //OBTENER DATOS DE INPUT
+    var text = event.target.value
+    //OBTENER DATOS DE ARRAY BACKUP
+    const data = documentoBackup
 
-  
-  const docsuserrr = DocumentsCollection.find({},{sort: {_id:-1}}).fetch();
+    console.log(data);
 
-  
+    const newData = data.filter(function(item){
+      //VARIABLE numero DEL DOCUMENTO
+      const itemNumero = item.numero.toString()
+      //VARIABLE fecha DEL DOCUMENTO
+      const itemFecha = //item.register.toString()
+      moment(item.register).format('DD-MM-YYYY HH:mm:ss')
+      //VARIABLE unidad origen DEL DOCUMENTO
+      const itemOrigen = item.useroficina.toUpperCase()
+      //VARIABLE referencian DEL DOCUMENTO
+      const itemReferencia = item.categoria.toUpperCase()
+      //VARIABLE DESTINO DEL DOCUMENTO
+      const itemDestino = item.destino.toUpperCase()
+      //VARIABLE nombre DEL DOCUMENTO
+      const itemNombre = item.nombre.toUpperCase()
+      //VARIABLE DEL DOCUMENTO MISMO
+      const itemPicture = item.picture.toUpperCase()
+      //VARIABLE gestion DEL DOCUMENTO
+      //const itemGestion = item.gestion.toUpperCase()
+      //  Juntamos los campos anteriores, para buscar todo
+      const itemData = itemNumero+" "
+                      +itemFecha+" "
+                      +itemOrigen+" "
+                      +itemReferencia+" "
+                      +itemDestino+" "
+                      +itemNombre+" "
+                      +itemPicture
+                      //+itemGestion
+                      
+      //VARIABLE DEL INPUT BUSCAR
+      const textData = text.toUpperCase()
+      //FILTRAR SI ES VERDADERO O FALSO Y LO DEVUELVE
+      return itemData.indexOf(textData) > -1
+    })
+
+    setDocumento(newData)
+    setTextBuscar(text)
+  };
+ 
 
   const upload = () => {
 
@@ -111,7 +163,7 @@ export const UploadFiles = () => {
     let currentFile = selectedFiles[0];
 
 
-    UploadService.uploadfile(iden,nombre,type,currentFile,user._id, user.username , oficina ,docs+1, destino)
+    UploadService.uploadfile(iden,nombre,type,currentFile,user._id, user.username , oficina ,docs+1, destino, gestion)
     .then(response => {
       console.log(response);
       const identificador = response.data[0].identi;
@@ -200,7 +252,7 @@ export const UploadFiles = () => {
 
 
                   Documento:
-                          <input type="file" onChange={selectFile} />
+                          <input type="file" onChange={(e) => selectFile(e)} />
                        <br/><br/>
 
                   Unidad:  <select
@@ -262,6 +314,23 @@ export const UploadFiles = () => {
                         ))}
                       </select> <br/> <br/>
 
+                Gestion: <select 
+                    required
+                    className="dropdown"
+                    value={gestion}
+                    onChange={(e) =>{setGestion(e.currentTarget.value)
+                    console.log(e.currentTarget.value);}}>
+                      <option value="Undefined" defaultValue> Seleccionar gestion </option>
+                         {gests.map(gest => (
+                      <option
+                        key={gest.nombre} 
+                        value={gest.nombre}
+                      >
+                        {gest.nombre}
+                      </option>
+                        ))}
+                      </select> <br/> <br/>
+
                       <button
                           className="btn btn-dark"
                           disabled={!selectedFiles}
@@ -276,38 +345,38 @@ export const UploadFiles = () => {
 
                   <div className="lista-doc">
                       <div className="lista-doc-item">
-
+                      <input 
+                        placeholder="Buscar" 
+                        className="form-control"
+                        value={textBuscar}
+                        onChange={(e) =>{setTextBuscar(e.currentTarget.value)
+                        filter(e);}}
+                      />
                       
-                              {docsuserrr.map(doc => (
-                                <ol key={doc._id}>
-
-                                    <li> <b> {doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}/{doc.numero}</b></li>
+                      {documento.map(doc => (
+                        <ol key={doc._id}>
+                          <li> <b> {doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}/{doc.numero}</b></li>                                    
+                          <li> <b>Fecha entrega:</b> {moment(doc.register).format('DD-MM-YYYY HH:mm:ss')}</li>
+                          <li> <b>Usuario origen: </b>{doc.usernombre}</li>
+                          <li> <b>Unidad origen:</b> {doc.useroficina}</li>
+                          <li> <b>Referencia:</b> {doc.categoria}</li>
+                          <li> <b>Unidad destino:</b> {doc.destino}</li>
+                          <li> <b>Nombre documento: </b> {doc.nombre}</li>
+                          <li> <b>Documento: </b> <a href={doc.link} >{doc.picture}</a><br/></li>
+                          <li> <b>Gestión: </b> {doc.gestion}</li>
                                     
-                                    <li> <b>Fecha entrega:</b> {moment(doc.register).format('DD-MM-YYYY HH:mm:ss')}</li>
-                                    <li> <b>Usuario origen: </b>{doc.usernombre}</li>
-                                    <li> <b>Unidad origen:</b> {doc.useroficina}</li>
-                                    <li> <b>Referencia:</b> {doc.categoria}</li>
-                                    <li> <b>Unidad destino:</b> {doc.destino}</li>
-                                    <li> <b>Nombre documento: </b> {doc.nombre}</li>
-                                    <li> <b>Documento: </b> <a href={doc.link} >{doc.picture}</a><br/></li>
-                                    
-                                    
-
-                                    <Button id={doc.identi} type="button">
-                                        Vista previa
-                                    </Button>
+                          <Button id={doc.identi} type="button">
+                              Vista previa
+                          </Button>
                                       
-                                    <UncontrolledPopover trigger="legacy" placement="right" target={doc.identi} className="my-custom-popover">
-                                        <PopoverHeader>{doc.nombre}</PopoverHeader>
-                                        <PopoverBody>
-                                            <img src={doc.link} alt="" height="350px" width="350px"/>
-                                        </PopoverBody>
-                                    </UncontrolledPopover>
-
-                                  
-
-                                </ol>
-                              ))}
+                          <UncontrolledPopover trigger="legacy" placement="right" target={doc.identi} className="my-custom-popover">
+                          <PopoverHeader>{doc.nombre}</PopoverHeader>
+                          <PopoverBody>
+                            <img src={doc.link} alt="" height="350px" width="350px"/>
+                          </PopoverBody>
+                           </UncontrolledPopover>
+                        </ol>
+                      ))}
                       
 
                               {fileInfos &&

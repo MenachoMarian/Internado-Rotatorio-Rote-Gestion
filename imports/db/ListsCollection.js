@@ -7,3 +7,4 @@ export const DocumentsCollection = new Mongo.Collection('documents');
 export const CategoriasCollection = new Mongo.Collection('categorias');
 export const OficinasCollection = new Mongo.Collection('oficinas');
 export const OtrosDocumentos = new Mongo.Collection('documentothers');
+export const GestionCollection = new Mongo.Collection('gestions');

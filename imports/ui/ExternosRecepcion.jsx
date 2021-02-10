@@ -66,6 +66,7 @@ export const ExternosRecepcion = () => {
  // }, []);
 
   console.log(Meteor.userId())
+  
 
 
   const docs = DocumentsCollection.find({destino: oficina},{sort: {_id:-1}}).fetch();

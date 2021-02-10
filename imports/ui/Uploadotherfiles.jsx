@@ -30,9 +30,12 @@ export const Uploadotherfiles = () => {
 
   const user = useTracker(() => Meteor.user());
   const idddd=  useTracker(() => Meteor.userId());
-  
   const logout = () => Meteor.logout();
-  
+
+  const [documento, setDocumento] = useState([]);
+  const [documentoBackup, setDocumentoBackup] = useState([]);
+  const [textBuscar, setTextBuscar] = useState("");
+
   const { docs } = useTracker(() => {
 
         const handlerdocs = Meteor.subscribe('otrosdocumentos');
@@ -45,20 +48,61 @@ export const Uploadotherfiles = () => {
     });
  
   
-
-  useEffect(() => {
-
-    /*UploadService.getFiles(idddd).then((response) => {
-      setFileInfos(response.data);
-      const num = response.data[0]._id;  */
-
-    });
- // }, []);
-
+useEffect(() => {
+      UploadService.getotherfiles().then((response) => {
+        setDocumento(response.data);
+        setDocumentoBackup(response.data);
+        //console.log(response.data); 
   
-
+  });
+}, []);
 
   console.log(Meteor.userId())
+  //console.log(documentoBackup);
+
+const filter =(event)=>{
+    console.log(event.target.value);
+    //OBTENER DATOS DE INPUT
+    var text = event.target.value
+    //OBTENER DATOS DE ARRAY BACKUP
+    const data = documentoBackup
+
+    console.log(data);
+
+    const newData = data.filter(function(item){
+      //VARIABLE fecha DEL DOCUMENTO
+      const itemFecha = //item.register.toString()
+      moment(item.register).format('DD-MM-YYYY HH:mm:ss')
+      //VARIABLE unidad origen DEL DOCUMENTO
+      const itemOrigen = item.useroficina.toUpperCase()
+      //VARIABLE referencian DEL DOCUMENTO
+      const itemReferencia = item.categoria.toUpperCase()
+      //VARIABLE DESTINO DEL DOCUMENTO
+      const itemDestino = item.destino.toUpperCase()
+      //VARIABLE nombre DEL DOCUMENTO
+      const itemNombre = item.nombre.toUpperCase()
+      //VARIABLE DEL DOCUMENTO MISMO
+      const itemPicture = item.picture.toUpperCase()
+      //VARIABLE gestion DEL DOCUMENTO
+      //const itemGestion = item.gestion.toUpperCase()
+      //  Juntamos los campos anteriores, para buscar todo
+      const itemData = itemFecha+" "
+                      +itemOrigen+" "
+                      +itemReferencia+" "
+                      +itemDestino+" "
+                      +itemNombre+" "
+                      +itemPicture
+                      //+itemGestion
+                      
+      //VARIABLE DEL INPUT BUSCAR
+      const textData = text.toUpperCase()
+      //FILTRAR SI ES VERDADERO O FALSO Y LO DEVUELVE
+      return itemData.indexOf(textData) > -1
+    })
+
+    setDocumento(newData)
+    setTextBuscar(text)
+  };
 
 
   return (
@@ -85,12 +129,27 @@ export const Uploadotherfiles = () => {
                 </div>
               <div className="contenido">
               <label> <b>SECRETARIA INGENIERIA DE SISTEMAS: RECEPCION DOCUMENTOS</b></label>
+              <div> Filtrar datos por:
+                  <button className="btn btn-dark"><Link to="filtrarCategoria">Referencia</Link></button>
+                        {"  "} 
+                  <button className="btn btn-dark"><Link to="filtrarCategoria">Unidad origen</Link></button>
+              </div>
 
                   <div className="lista-doc">
                       <div className="lista-doc-item">
+                      
+                    
+
+                      <input 
+                        placeholder="Buscar" 
+                        className="form-control col-md-4"
+                        value={textBuscar}
+                        onChange={(e) =>{setTextBuscar(e.currentTarget.value)
+                          filter(e);}}
+                        /> <br/> <br/>
 
                       
-                              {docs.map(doc => (
+                              {documento.map(doc => (
                                 <ol key={doc._id}>
 
                                     <li> <b> {doc.universidad}/{doc.facultad}/{doc.categoria}</b></li>
