@@ -4,6 +4,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import  { Home } from '../ui/Home';
 import { LoginForm } from '../ui/LoginForm';
 import { Nav } from './Navbar';
+import {UIADMIN} from './UIADMIN'
 
 import { useHistory } from "react-router-dom";
 
@@ -13,15 +14,20 @@ import '../styles/Styles.css'
 export const App = () => {
   const user = useTracker(() => Meteor.user());
   const logout = () => Meteor.logout();
+  const userId = useTracker(() => Meteor.userId());
   console.log(Meteor.users.find(user).fetch());
   
   return (
     <div className="Body">
       
       {user ? (
-        <Fragment>
-          <Home/>
-        </Fragment>    
+         userId == "q3w3ELFTmkPApjQez" ?(
+          <UIADMIN/>
+        ):(
+          <Fragment>
+            <Home/>
+          </Fragment>    
+        )
         ) : (
           <LoginForm /> 
         )}

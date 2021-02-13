@@ -26,6 +26,9 @@ import { Button, Popover, PopoverHeader, PopoverBody,UncontrolledPopover } from 
 
 import { Nav } from "./Navbar";
 import { App } from './App';
+import { Pagination } from './Pagination';
+import { Home } from './Home';
+import {UIADMIN} from './UIADMIN'
 
 
 export const UploadFiles = () => {
@@ -54,6 +57,7 @@ export const UploadFiles = () => {
 
 
   const user = useTracker(() => Meteor.user());
+  const userId = useTracker(() => Meteor.userId());
   const idddd=  useTracker(() => Meteor.userId());
   
   const logout = () => Meteor.logout();
@@ -108,53 +112,6 @@ useEffect(() => {
   //console.log(Meteor.userId())
   //console.log(gests);
   //const docsuserrr = DocumentsCollection.find({},{sort: {_id:-1}}).fetch();
-
-  const filter =(event)=>{
-    console.log(event.target.value);
-    //OBTENER DATOS DE INPUT
-    var text = event.target.value
-    //OBTENER DATOS DE ARRAY BACKUP
-    const data = documentoBackup
-
-    console.log(data);
-
-    const newData = data.filter(function(item){
-      //VARIABLE numero DEL DOCUMENTO
-      const itemNumero = item.numero.toString()
-      //VARIABLE fecha DEL DOCUMENTO
-      const itemFecha = //item.register.toString()
-      moment(item.register).format('DD-MM-YYYY HH:mm:ss')
-      //VARIABLE unidad origen DEL DOCUMENTO
-      const itemOrigen = item.useroficina.toUpperCase()
-      //VARIABLE referencian DEL DOCUMENTO
-      const itemReferencia = item.categoria.toUpperCase()
-      //VARIABLE DESTINO DEL DOCUMENTO
-      const itemDestino = item.destino.toUpperCase()
-      //VARIABLE nombre DEL DOCUMENTO
-      const itemNombre = item.nombre.toUpperCase()
-      //VARIABLE DEL DOCUMENTO MISMO
-      const itemPicture = item.picture.toUpperCase()
-      //VARIABLE gestion DEL DOCUMENTO
-      //const itemGestion = item.gestion.toUpperCase()
-      //  Juntamos los campos anteriores, para buscar todo
-      const itemData = itemNumero+" "
-                      +itemFecha+" "
-                      +itemOrigen+" "
-                      +itemReferencia+" "
-                      +itemDestino+" "
-                      +itemNombre+" "
-                      +itemPicture
-                      //+itemGestion
-                      
-      //VARIABLE DEL INPUT BUSCAR
-      const textData = text.toUpperCase()
-      //FILTRAR SI ES VERDADERO O FALSO Y LO DEVUELVE
-      return itemData.indexOf(textData) > -1
-    })
-
-    setDocumento(newData)
-    setTextBuscar(text)
-  };
  
 
   const upload = () => {
@@ -222,6 +179,10 @@ useEffect(() => {
     <div>
        {user ? (
 
+          userId == "q3w3ELFTmkPApjQez" ?(
+            <UIADMIN/>
+          ):(
+
           user.profile.oficina == "SECRETARIA INGENIERIA DE SISTEMAS" ? (
             <Fragment>
               
@@ -229,198 +190,157 @@ useEffect(() => {
                   <div className="hero">
                           <Nav/>
                           <nav className="menu">
-                              <ol>
-                                  <li>
-                                    <Link to="/Home">Home</Link>
-                                    <Link to="/OtrosDocumentos">Recepción documentos</Link>
-                                    <Link to="/TextEditor">Editor</Link>
-                                  </li>
-                              </ol>
+                              <ul>
+                              <li><Link to="/Home">Home</Link></li>
+                              <li><Link to="/UploadFile">Enviar</Link></li>
+                              <li><Link to="/OtrosDocumentos">Recibidos</Link></li>
+                              <li><Link to="/TextEditor">Editor</Link></li>
+                              <li><a>{user.username} 🚪</a><br/>
+                                  <ul>
+                                    <li onClick={logout}><a>Salir</a></li>
+                                  </ul>
+                                </li>
+                              </ul>
                           </nav>
-                  </div>
-                  <div className="user" onClick={logout}>
-                      {user.username} 🚪
-                </div>
-              <div className="contenido">
-                  <div className="botones-insert">
-                    
-                    <label> <b>SECRETARIA INGENIERIA DE SISTEMAS: ENVIO DOCUMENTOS</b></label>
-                    <label > <b>Número documento: </b>{docs+1}</label>
-                    
+                  </div> 
 
-                  <form className="doc-form" >
-
-
-                  Documento:
-                          <input type="file" onChange={(e) => selectFile(e)} />
-                       <br/><br/>
-
-                  Unidad:  <select
-                        required
-                        className="dropdown"
-                        value={oficina}
-                        onChange={(e) =>{setOficina(e.currentTarget.value)
-                        console.log(e.currentTarget.value);}}>
-                          <option value="Undefined" defaultValue> Seleccione su unidad</option>
-                          <option
-                            value={user.profile.oficina}
-                          >
-                            {user.profile.oficina}
-                          </option>
-                            
-                          </select> <br/> <br/>
+        
                   
-                  Nombre del documento:
-                            <input 
-                                type="text"
-                                value={nombre}
-                                onChange={(e) => setNombre(e.currentTarget.value)}
-                            /><br/><br/>
-          
-                Tipo de documento: <select 
-                                      required
-                                      className="dropdown"
-                                      value={type}
-                                      onChange={(e) =>setType(e.currentTarget.value)}>
-                                        <option value="Undefined" defaultValue> Seleccionar categoría</option>
-                                    {cats.map(cat => (
-                                        <option
-                                          key={cat.code} 
-                                          value={cat.code}
-                                          >
-                                            {cat.categoria}    ({cat.code})
-                                        </option>
-                                      ))}
-                                    </select>
-                  <button 
+        <div className="contenido">
+        <Link to="/Buscador"><input 
+                        placeholder="Buscar documentos enviados..." 
+                        className="form-control"
+        /></Link> <br/>
+        <h2> SECRETARIA INGENIERIA DE SISTEMAS: ENVIO DOCUMENTOS <br/>
+                Número documento:  {docs+1} </h2>
+       
+          <div className="insert-doc">     
+                    
+
+          <form className="doc-form" >
+
+             
+           <fieldset>
+
+            <p><label>Documento:</label></p>
+             <p><input type="file" onChange={(e) => selectFile(e)} /></p>
+            
+            <p><label>Unidad:  </label></p>
+             <p>
+                <select
+                  required
+                  className="dropdown"
+                  value={oficina}
+                  onChange={(e) =>{setOficina(e.currentTarget.value)
+                  console.log(e.currentTarget.value);}}>
+                  <option value="Undefined" defaultValue> Seleccione su unidad</option>
+                  <option
+                    value={user.profile.oficina}
+                  >
+                    {user.profile.oficina}
+                  </option>
+                </select> 
+             </p>
+
+            <p><label>Nombre del documento:</label></p>
+             <p>
+              <input 
+                type="text"
+                value={nombre}
+                onChange={(e) => setNombre(e.currentTarget.value)}
+              />
+             </p>
+
+            <p><label>Tipo de documento:</label></p>
+             <p>
+                <select 
+                  required
+                  className="dropdown"
+                  value={type}
+                  onChange={(e) =>setType(e.currentTarget.value)}>
+                  <option value="Undefined" defaultValue> Seleccionar categoría</option>
+                    {cats.map(cat => (
+                  <option
+                    key={cat.code} 
+                    value={cat.code}
+                  >
+                    {cat.categoria}    ({cat.code})
+                  </option>
+                    ))}
+                </select> {"        "}
+                <button 
                       className="btn btn-dark" >
                       <Link to="/nuevacategoria">Agregar categoria</Link>
-                  </button><br/><br/>          
+                  </button>  
+             </p>
+            
+            <p><label>Destino:</label></p>
+             <p>
+              <select 
+               required
+               className="dropdown"
+               value={destino}
+               onChange={(e) =>{setDestino(e.currentTarget.value)
+               console.log(e.currentTarget.value);}}>
+               <option value="Undefined" defaultValue> Seleccionar unidad destino </option>
+                  {ofis.map(ofi => (
+               <option
+                  key={ofi.oficinanombre} 
+                  value={ofi.oficinanombre}
+               >
+                  {ofi.oficinanombre}///{ofi.oficinacode}
+               </option>
+                  ))}
+               </select>
+             </p>
+            
+            <p><label>Gestion: </label></p>
+             <p>
+              <select 
+                required
+                className="dropdown"
+                value={gestion}
+                onChange={(e) =>{setGestion(e.currentTarget.value)
+                console.log(e.currentTarget.value);}}>
+                <option value="Undefined" defaultValue> Seleccionar gestion </option>
+                  {gests.map(gest => (
+                <option
+                   key={gest.nombre} 
+                   value={gest.nombre}
+                >
+                  {gest.nombre}
+                </option>
+                  ))}
+              </select>
+             </p>
+            
 
-                Destino: <select 
-                    required
-                    className="dropdown"
-                    value={destino}
-                    onChange={(e) =>{setDestino(e.currentTarget.value)
-                    console.log(e.currentTarget.value);}}>
-                      <option value="Undefined" defaultValue> Seleccionar unidad destino </option>
-                         {ofis.map(ofi => (
-                      <option
-                        key={ofi.oficinanombre} 
-                        value={ofi.oficinanombre}
-                      >
-                        {ofi.oficinanombre}///{ofi.oficinacode}
-                      </option>
-                        ))}
-                      </select> <br/> <br/>
+            <p>
+              <button
+                //className="btn btn-dark"
+                type="submit"
+                disabled={!selectedFiles}
+                onClick={upload}
+              >
+                  Cargar
+              </button>
+            </p>
+                        
+           </fieldset>
+         </form>
+         </div>
 
-                Gestion: <select 
-                    required
-                    className="dropdown"
-                    value={gestion}
-                    onChange={(e) =>{setGestion(e.currentTarget.value)
-                    console.log(e.currentTarget.value);}}>
-                      <option value="Undefined" defaultValue> Seleccionar gestion </option>
-                         {gests.map(gest => (
-                      <option
-                        key={gest.nombre} 
-                        value={gest.nombre}
-                      >
-                        {gest.nombre}
-                      </option>
-                        ))}
-                      </select> <br/> <br/>
-
-                      <button
-                          className="btn btn-dark"
-                          disabled={!selectedFiles}
-                          onClick={upload}
-                      >
-                          Cargar
-                      </button> <br/>   </form>
-
-                  </div>
+         <Pagination peticion={documento}/>
 
                   
-
-                  <div className="lista-doc">
-                      <div className="lista-doc-item">
-                      <input 
-                        placeholder="Buscar" 
-                        className="form-control"
-                        value={textBuscar}
-                        onChange={(e) =>{setTextBuscar(e.currentTarget.value)
-                        filter(e);}}
-                      />
-                      
-                      {documento.map(doc => (
-                        <ol key={doc._id}>
-                          <li> <b> {doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}/{doc.numero}</b></li>                                    
-                          <li> <b>Fecha entrega:</b> {moment(doc.register).format('DD-MM-YYYY HH:mm:ss')}</li>
-                          <li> <b>Usuario origen: </b>{doc.usernombre}</li>
-                          <li> <b>Unidad origen:</b> {doc.useroficina}</li>
-                          <li> <b>Referencia:</b> {doc.categoria}</li>
-                          <li> <b>Unidad destino:</b> {doc.destino}</li>
-                          <li> <b>Nombre documento: </b> {doc.nombre}</li>
-                          <li> <b>Documento: </b> <a href={doc.link} >{doc.picture}</a><br/></li>
-                          <li> <b>Gestión: </b> {doc.gestion}</li>
-                                    
-                          <Button id={doc.identi} type="button">
-                              Vista previa
-                          </Button>
-                                      
-                          <UncontrolledPopover trigger="legacy" placement="right" target={doc.identi} className="my-custom-popover">
-                          <PopoverHeader>{doc.nombre}</PopoverHeader>
-                          <PopoverBody>
-                            <img src={doc.link} alt="" height="350px" width="350px"/>
-                          </PopoverBody>
-                           </UncontrolledPopover>
-                        </ol>
-                      ))}
-                      
-
-                              {fileInfos &&
-                                  fileInfos.map((file, index) => (
-                                  <ol key={index}>
-
-                                    <li>
-                                      {file.universidad}/{file.facultad}/{file.carrera}/{file.categoria}/{file.numero}<br/>
-                                      <label><b>{file.nombre}:  </b></label>
-                                      <a href={file.link} >{file.picture}</a><br/>
-                                      <label>Oficina: {file.useroficina}</label><br/>
-                                      <label>Fecha: {file.register}</label><br/>
-                                  
-
-                                      <Button id={file.identi} type="button">
-                                        Vista previa
-                                      </Button>
-                                      
-                                        <UncontrolledPopover trigger="legacy" placement="right" target={file.identi} className="my-custom-popover">
-                                          <PopoverHeader>Vista previa</PopoverHeader>
-                                          <PopoverBody>
-                                            <img src={file.link} alt="" height="350px" width="350px"/>
-                                          </PopoverBody>
-                                        </UncontrolledPopover>
-                                      
-                                    </li>
-                                      
-
-                                    
-                                  </ol>
-                                  
-                                
-                                  ))}
-              
-                          
-                      </div>
-                  </div>    
+   
               </div>
             </div>
             </Fragment>    
             ) : (
                 <Home /> 
             )
-         
+          )
         ) : (
           <App />
         )}

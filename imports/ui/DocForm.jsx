@@ -46,14 +46,14 @@ export const DocumentoForm = () => {
             <div className="hero">
                 <Nav/>
                 <nav className="menu">
-                    <ol>
+                    <ul>
                         <li>
                             <Link to="/Home">Home</Link>
                         </li>
                         <li>
                             <Link to="/">Salir</Link>
                         </li>
-                    </ol>
+                    </ul>
                 </nav>
             </div>
 

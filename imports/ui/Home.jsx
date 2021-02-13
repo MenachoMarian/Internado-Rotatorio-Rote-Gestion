@@ -8,6 +8,7 @@ import {Nav} from '../ui/Navbar';
 import { DocForm } from './DocForm';
 import { LoginForm } from './LoginForm';
 import {App} from './App';
+import {UIADMIN} from './UIADMIN'
 
 import {
   BrowserRouter as Router,
@@ -35,6 +36,7 @@ export const Home = () => {
   const logout = () => Meteor.logout();
 
   console.log(user);
+  console.log(userId);
   
    
  // const lists = useTracker(() => ListsCollection.find({},{ fields: { _id: 1 }}, { sort: { createdAt: 1 } }).fetch());
@@ -44,6 +46,11 @@ return (
   <div>
 
       {user ? (
+
+        userId == "q3w3ELFTmkPApjQez" ?(
+          <UIADMIN/>
+        ):(
+
         <Fragment>
       <div className="Body">
         <div className="hero">
@@ -51,39 +58,48 @@ return (
           {user.profile.oficina == "SECRETARIA INGENIERIA DE SISTEMAS" ? (
             <Fragment>
               <nav className="menu">
-                <ol>
-                  <li>
-                    <Link to="/UploadFile">Envio Documentos</Link>
-                    <Link to="/OtrosDocumentos">Recepción Documentos</Link>
+                <ul>
+                  <li><Link to="/Home">Home</Link></li>
+                  <li><Link to="/UploadFile">Enviar</Link></li>
+                  <li><Link to="/OtrosDocumentos">Recibidos</Link></li>
+                  <li><Link to="/TextEditor">Editor</Link></li>
+                  <li><a>{user.username} 🚪</a><br/>
+                    <ul>
+                      <li onClick={logout}><a>Salir</a></li>
+                    </ul>
                   </li>
-                </ol>
+                </ul>
               </nav>
-            </Fragment>    
+            </Fragment>   
+
           ) : (
               <Fragment>
               <nav className="menu">
-                <ol>
-                  <li>
-                    <Link to="/ExternosEnvio">Envio Doc</Link>
-                    <Link to="/ExternosRecepcion">Recepción Doc</Link>
+                <ul>
+                <li> <Link to="/Home">Home</Link> </li>
+                <li><Link to="/ExternosEnvio">Enviar</Link></li>
+                <li><Link to="/ExternosRecepcion">Recibidos</Link></li>
+                <li><a>{user.username} 🚪</a><br/>
+                    <ul>
+                      <li onClick={logout}><a>Salir</a></li>
+                    </ul>
                   </li>
-                </ol>
+                </ul>
               </nav>
             </Fragment>  
           )}
         </div>
 
-
-      <div className="user" onClick={logout}>
-            {user.username} 🚪   
-      </div>
       <div  className="contenido">   
           <div className="lista-doc">
                 <h1>Holi</h1>
           </div>
       </div>
     </div>
-        </Fragment>    
+        </Fragment>  )
+        
+        
+        
         ) : (
               <App /> 
         )}

@@ -4,6 +4,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 
 import {Nav} from '../ui/Navbar';
 import {App} from './App';
+import {UIADMIN} from './UIADMIN'
 
 import {
   BrowserRouter as Router,
@@ -26,6 +27,7 @@ export const NewCategory = () => {
     const history = useHistory();
 
   const user = useTracker(() => Meteor.user());
+  const userId = useTracker(() => Meteor.userId());
   const logout = () => Meteor.logout();
 
   console.log(user);
@@ -50,7 +52,7 @@ export const NewCategory = () => {
 
     setName("");
     setCode("");
-    history.push("/UploadFile");
+    history.push("/Home");
 };
  
 
@@ -58,48 +60,82 @@ return (
   <div>
 
       {user ? (
+
         <Fragment>
       <div className="Body">
         <div className="hero">
           <Nav/>
+          {userId == "q3w3ELFTmkPApjQez" ?(
+            <nav className="menu">
+            <ul>
+              <li><Link to="/Home">Home</Link></li>
+              <li><a>{user.username} 🚪</a><br/>
+                <ul>
+                   <li onClick={logout}><a>Salir</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          ):(
              <nav className="menu">
-                <ol>
-                  <li>
-                    <Link to="/Home">Home</Link>
-                    <Link to="/UploadFile">Insertar Doc</Link>
+                <ul>
+                  <li><Link to="/Home">Home</Link></li>
+                  <li><Link to="/UploadFile">Enviar</Link></li>
+                  <li><Link to="/OtrosDocumentos">Recibidos</Link></li>
+                  <li><Link to="/TextEditor">Editor</Link></li>
+                  <li><a>{user.username} 🚪</a><br/>
+                    <ul>
+                       <li onClick={logout}><a>Salir</a></li>
+                    </ul>
                   </li>
-                </ol>
+                </ul>
               </nav>
+          )}
         </div>
-      <div className="user" onClick={logout}>
-            {user.username} 🚪
-      </div>
-      <div  className="contenido">   
-      <form className="doc-form" onSubmit={handleSubmit}>
-              Nombre categoria:
-                <input 
-                 type="text"
-                 value={nombre}
-                 onChange={(e) => setNombre(e.target.value)}
-                /><br/><br/>
-              Código categoria:
-                <input 
-                 type="text"
-                 value={code}
-                 onChange={(e) => setCode(e.target.value)}
-                /><br/><br/>
+      
+      <div  className="contenido">  
+       <div className="insert-doc">
+        <form className="doc-form" onSubmit={handleSubmit}>
 
-                <div align="right">
-                    <button className="btn btn-dark">
-                        Enviar
-                    </button>  
-                    <button className="btn btn-dark">
-                        <Link to="/UploadFile">Cancelar</Link>
-                    </button> <br/>   
+         <h2> REGISTRO: NUEVA CATEGORIA </h2> 
 
-                </div>
-              
-              </form>
+          <fieldset>
+            <p><label>Nombre categoria:</label></p>
+            <p>
+              <input 
+                type="text"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+              />
+            </p>
+
+
+            <p><label>Código categoria:</label></p>
+            <p>
+              <input 
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+            </p>
+
+            <p>
+              <button
+                type="submit" >
+                  Enviar
+              </button>  
+            </p>
+
+            <p>
+              <button 
+              type="submit">
+                  <Link to="/UploadFile">Cancelar</Link>
+              </button> 
+            </p> 
+          </fieldset>
+
+                </form>
+        </div> 
       </div>
     </div>
         </Fragment>    

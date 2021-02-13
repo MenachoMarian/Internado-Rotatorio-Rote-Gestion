@@ -15,6 +15,10 @@ import {ExternosEnvio} from '../ui/ExternosEnvio';
 import {Buscador} from '../ui/Buscador';
 import {Categoriafiltrar} from '../ui/filtrarCategoria';
 import {Origenfiltrar} from '../ui/filtrarOrigen';
+import {NewUnidad} from '../ui/NewUnidad';
+import {NewGestion} from '../ui/NewGestion';
+import {Pagination} from '../ui/Pagination';
+
 import {Scanner} from '../ui/Scanner';
 
 import {Editornuevo} from '../ui/nuevoeditor';
@@ -47,9 +51,7 @@ export const Rutas = () => {
             <Route exact path="/RegisterUserForm">
                 <RegisterUserForm/>
             </Route>
-            <Route exact path="/DocumentoForm">
-                <DocumentoForm/>
-            </Route>
+            
             <Route exact path="/UploadFile">
                 <UploadFiles/>
             </Route>
@@ -80,9 +82,14 @@ export const Rutas = () => {
             <Route exact path="/filtrarOrigen">
                 <Origenfiltrar/>
             </Route>
-            <Route exact path="/Scanner">
-                <Scanner/>
+            <Route exact path="/NewUnidad">
+                <NewUnidad/>
             </Route>
+            <Route exact path="/NewGestion">
+                <NewGestion/>
+            </Route>
+            
+            
         </Router>
      
       

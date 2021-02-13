@@ -25,6 +25,8 @@
     "bcrypt": "^5.0.0",
     "bootstrap": "^4.5.3",
     "ckeditor5-custom-build": "file:ckeditor5",
+    "dwt": "^16.2.4",
+    "firebase-functions": "^3.6.0",
     "form-data": "^3.0.0",
     "html-react-parser": "^1.2.1",
     "jquery": "^3.5.1",

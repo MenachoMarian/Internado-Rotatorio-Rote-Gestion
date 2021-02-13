@@ -37,27 +37,27 @@ export const LoginForm = () => {
             <div className="hero">
             <Nav/>
                 <nav className="menu">
-                  <ol>
+                  <ul>
                     <li>
                       <Link to="RegisterUserForm">Registro</Link>   
                     </li>
-                  </ol>
+                  </ul>
                 </nav>
           </div>
           <div className="contenido">
-              <form onSubmit={submit} className="form-register">
-              <h4> Iniciar sesión</h4>
-              <label htmlFor="username">Username</label>
-  
-              <input
-                  type="text"
-                  placeholder="Username"
-                  name="username"
-                  required
-                  onChange={e => setUsername(e.target.value)}
-              />
-  
-              <label htmlFor="password">Password</label>
+
+              <form onSubmit={submit} className="login">
+              <h4> Login</h4><br/>
+              
+                
+                <input
+                
+                    type="text"
+                    placeholder="Username"
+                    name="username"
+                    required
+                    onChange={e => setUsername(e.target.value)}
+                /> <br/>
   
               <input
                   type="password"
@@ -67,7 +67,8 @@ export const LoginForm = () => {
                   onChange={e => setPassword(e.target.value)}
               /> <br/>
   
-              <button type="submit">Log In</button>
+              
+              <button type="submit" className="btn btn-dark">Login</button>
               </form>
           </div>
             

@@ -16,6 +16,8 @@ import ReactHtmlParser from 'react-html-parser';
 
 import {Nav} from './Navbar';
 import { App } from './App';
+import {UIADMIN} from './UIADMIN'
+
 import UploadService from "../services/FileUploadService";
 import {TextosCollection} from "../db/ListsCollection"
 
@@ -41,6 +43,7 @@ export const EditorTexto = () => {
 
   
   const user = useTracker(() => Meteor.user());
+  const userId = useTracker(() => Meteor.userId());
   const logout = () => Meteor.logout();
 
   const [nombre, setNombre] = useState("");
@@ -89,22 +92,30 @@ export const EditorTexto = () => {
     <div>
 
     {user ? (
+
+      userId == "q3w3ELFTmkPApjQez" ?(
+        <UIADMIN/>
+      ):(
       <Fragment>
 
     <div className="Body">
         <div className="hero">
           <Nav/>
           <nav className="menu">
-                <ol>
-                  <li>
-                    <Link to="/Home">Home</Link>
+                <ul>
+                  <li><Link to="/Home">Home</Link></li>
+                  <li><Link to="/UploadFile">Enviar</Link></li>
+                  <li><Link to="/OtrosDocumentos">Recibidos</Link></li>
+                  <li><Link to="/TextEditor">Editor</Link></li>
+                  <li><a>{user.username} 🚪</a><br/>
+                    <ul>
+                      <li onClick={logout}><a>Salir</a></li>
+                    </ul>
                   </li>
-                </ol>
+                </ul>
               </nav>
         </div>
-        <div className="user" onClick={logout}>
-            {user.username} 🚪
-       </div>
+        
         <div className="contenido">
           <form className="doc-form" onSubmit={handleSubmit}>
               Nombre del documento:
@@ -148,7 +159,7 @@ export const EditorTexto = () => {
         </div>
     </div>
    
-      </Fragment>    
+      </Fragment>    )
       ) : (
             <App /> 
       )}

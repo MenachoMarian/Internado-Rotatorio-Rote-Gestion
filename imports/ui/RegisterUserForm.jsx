@@ -20,6 +20,7 @@ import {
 import { Nav } from './Navbar';
 import {Home} from './Home';
 import { App } from './App';
+import {UIADMIN} from './UIADMIN'
 
 export const RegisterUserForm = () => {
 
@@ -30,6 +31,7 @@ export const RegisterUserForm = () => {
     const history = useHistory();
 
     const user = useTracker(() => Meteor.user());
+    const userId = useTracker(() => Meteor.userId());
     //const [email, setEmail]=useState("");
 
     const { ofis } = useTracker(() => {
@@ -70,33 +72,41 @@ export const RegisterUserForm = () => {
 return (
     <div>
           {user ? (
-          <Fragment>
-            <App/>
-          </Fragment>
+            userId == "q3w3ELFTmkPApjQez" ?(
+             <UIADMIN/>
+            ):(
+              <App/>
+            )
+          
         ) : (
         <div className="Body">
             <div className="hero">
                 <Nav/>
+                <div className="menu">
+                  <ul>
+                    <li><Link to="/Home">Login</Link></li>
+                  </ul>
+                </div>
             </div>
             <div className="contenido"> 
 
-                <form className="form-register" onSubmit={handleSubmit}>
-                <h4>Registro:</h4> <br/>
-                Nombre de usuario:<input 
+                <form className="register" onSubmit={handleSubmit}>
+                <h4>Registro</h4> <br/>
+                <input 
                     type="text"
                     placeholder="Nombre de usuario"
                     value={username} 
                     onChange={(e) => setUsername(e.target.value)} 
                     /> <br/>
-                Contraseña:<input 
+               <input 
                     type="password"
                     placeholder="Password"
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
                     /> <br/>
-                Oficina: <select 
+                <select 
                     required
-                    className="dropdown"
+                    className="select-box"
                     value={oficina}
                     onChange={(e) =>{setOficina(e.currentTarget.value)
                     console.log(e.currentTarget.value);}}>
@@ -106,10 +116,10 @@ return (
                         key={ofi.oficinanombre} 
                         value={ofi.oficinanombre}
                       >
-                        {ofi.oficinanombre}  ///  {ofi.oficinacode}
+                        {ofi.oficinanombre}     ({ofi.oficinacode})
                       </option>
                         ))}
-                      </select> <br/> <br/>
+                      </select> <br/> 
 
                         <button
                         type="submit"
@@ -120,8 +130,9 @@ return (
                 </form>
             </div>
         </div>
+        
         )}
-
+          
         
     </div> 
         

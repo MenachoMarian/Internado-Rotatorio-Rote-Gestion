@@ -26,6 +26,8 @@ import { Button, Popover, PopoverHeader, PopoverBody,UncontrolledPopover } from 
 import { Nav } from "./Navbar";
 import { App } from './App';
 import { Home } from './Home';
+import {UIADMIN} from './UIADMIN'
+import { ExternosPaginacion } from './ExternosPaginacion';
 
 
 export const ExternosEnvio = () => {
@@ -118,6 +120,12 @@ export const ExternosEnvio = () => {
     <div>
        {user ? (
 
+        idddd == "q3w3ELFTmkPApjQez" ?(
+          <UIADMIN/>
+        ):(
+
+        
+
         user.profile.oficina == "SECRETARIA INGENIERIA DE SISTEMAS" ? (
                 <Fragment>
                 <Home/>
@@ -128,116 +136,139 @@ export const ExternosEnvio = () => {
                 <div className="hero">
                         <Nav/>
                         <nav className="menu">
-                            <ol>
-                                <li>
-                                    <Link to="/Home">Home</Link>
-                                    <Link to="/ExternosRecepcion">Recepción doc</Link>
+                            <ul>
+                                <li> <Link to="/Home">Home</Link> </li>
+                                <li><Link to="/ExternosEnvio">Enviar</Link></li>
+                                <li><Link to="/ExternosRecepcion">Recibidos</Link></li>
+                                <li><a>{user.username} 🚪</a><br/>
+                                  <ul>
+                                    <li onClick={logout}><a>Salir</a></li>
+                                  </ul>
                                 </li>
-                            </ol>
+                            </ul>
                         </nav>
                 </div>
-                <div className="user" onClick={logout}>
-                    {user.username} 🚪
-                </div>
-
 
             <div className="contenido">
-                <div className="botones-insert">
-                <label> <b>ENVIO DOCUMENTOS UNIDADES EXTERNAS</b></label>
-                    <label > <b>Oficina: </b> {user.profile.oficina}</label>
+                 <h2>
+                    ENVIO DOCUMENTOS UNIDADES EXTERNAS <br/>
+                        <b>Oficina: </b> {user.profile.oficina}
+                  </h2>
+              <div className="insert-doc">
                 <form className="doc-form" >
+                  
+                <fieldset>
+                  <p><label>Unidad: </label></p>
+                  <p>
+                    <select 
+                        required
+                        className="select-box"
+                        value={oficina}
+                        onChange={(e) =>{setOficina(e.currentTarget.value)
+                        console.log(e.currentTarget.value);}}>
+                          <option value="Undefined" defaultValue> Seleccionar su unidad</option>
+                            
+                          <option
+                            value={user.profile.oficina}
+                          >
+                            {user.profile.oficina}
+                          </option>
+                            
+                          </select>
+                  </p>
 
-                Unidad: <select 
-                    required
-                    className="dropdown"
-                    value={oficina}
-                    onChange={(e) =>{setOficina(e.currentTarget.value)
-                    console.log(e.currentTarget.value);}}>
-                      <option value="Undefined" defaultValue> Seleccionar su unidad</option>
-                         
-                      <option
-                        value={user.profile.oficina}
-                      >
-                        {user.profile.oficina}
+                  <p><label>Nombre del documento:</label></p>
+                  <p>
+                     <input 
+                      required
+                      type="text"
+                      value={nombre}
+                      onChange={(e) => setNombre(e.currentTarget.value)}
+                     />
+                  </p>
+
+                  <p><label> Tipo de documento: </label></p>
+                  <p>
+                     <select 
+                       required
+                       className="select-box"
+                       value={type}
+                       onChange={(e) =>setType(e.currentTarget.value)}>
+                       <option value="Undefined" defaultValue> Seleccionar categoría</option>
+                         {cats.map(cat => (
+                       <option
+                          key={cat.code} 
+                          value={cat.code}
+                       >
+                          {cat.categoria}    ({cat.code})
                       </option>
-                        
-                      </select> <br/> <br/>
-                Nombre del documento:
-                            <input 
-                               required
-                                type="text"
-                                value={nombre}
-                                onChange={(e) => setNombre(e.currentTarget.value)}
-                            /><br/><br/>
-        
-                Tipo de documento: <select 
-                                    required
-                                    className="dropdown"
-                                    value={type}
-                                    onChange={(e) =>setType(e.currentTarget.value)}>
-                                        <option value="Undefined" defaultValue> Seleccionar categoría</option>
-                                    {cats.map(cat => (
-                                        <option
-                                        key={cat.code} 
-                                        value={cat.code}
-                                        >
-                                            {cat.categoria}    ({cat.code})
-                                        </option>
-                                    ))}
-                                    </select>
-                <button 
-                    className="btn btn-dark" >
-                    <Link to="/nuevacategoria">Agregar categoria</Link>
-                </button><br/><br/>          
+                      ))}
+                    </select><br/>
+                    <button 
+                      className="btn btn-dark" >
+                      <Link to="/nuevacategoria">Agregar categoria</Link>
+                  </button> 
+                  </p>
 
-                Documento: <label className="btn btn-default">
-                        <input type="file" onChange={(e)=>selectFile(e)} />
-                    </label>
+                  <p><label>Documento: </label></p>
+                  <p>
+                    <input type="file" onChange={(e)=>selectFile(e)} />
+                  </p>
 
-                    <button
-                        className="btn btn-dark"
-                        disabled={!selectedFiles}
-                        onClick={upload}
-                    >
-                        Cargar
-                    </button> <br/>   </form>
+                  <p>
+                  <button
+                          //className="btn btn-dark"
+                          type="submit"
+                          disabled={!selectedFiles}
+                          onClick={upload}
+                      >
+                          Cargar
+                      </button>
+                  </p>
+                </fieldset>
+           </form>
 
+          
+
+                </div> <br/>
+
+                <div className="titulo-tabla">
+
+                    <h2>Documentos enviados</h2>
                 </div>
 
-
-                <div className="lista-doc">
-                    <div className="lista-doc-item">
-                            {docuserr.map(doc => (
-                                <ol key={doc._id}>
-
-                                    <li> <b> {doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}</b></li>
-                                    
-                                    <li> <b>Fecha entrega:</b> {moment(doc.register).format('DD-MM-YYYY HH:mm:ss')}</li>
-                                    <li> <b>Unidad origen:</b> {doc.useroficina}</li>
-                                    <li> <b>Usuario origen: </b>{doc.usernombre}</li>
-                                    <li> <b>Referencia:</b> {doc.categoria}</li>
-                                    <li><b>Unidad destino: </b> {doc.destino}</li>
-                                    <li> <b>Nombre documento: </b> {doc.nombre}</li>
-                                    <li> <b>Documento: </b> <a href={doc.link} >{doc.picture}</a><br/></li>
-                                    
-
-                                    <Button id={doc.identi} type="button">
-                                        Vista previa
-                                    </Button>
-                                    
-                                    <UncontrolledPopover trigger="legacy" placement="right" target={doc.identi} className="my-custom-popover">
-                                        <PopoverHeader>{doc.nombre}</PopoverHeader>
-                                        <PopoverBody>
-                                            <img src={doc.link} alt="" height="350px" width="350px"/>
-                                        </PopoverBody>
-                                    </UncontrolledPopover>
-                                </ol>
-                            ))}      
-                    </div>
-                </div>  
+                {docuserr.map(doc => (
+                      <table className="table" key={doc._id}>
+                          <thead >
+                          <tr>
+                              <th>{doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}/{doc.numero}</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <th>
+                                      <ul >
+                                      <li> <b> {doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}/{doc.numero}</b></li>                                    
+                                      <li> <b>Fecha entrega:</b> {moment(doc.register).format('DD-MM-YYYY HH:mm:ss')}</li>
+                                      <li> <b>Usuario origen: </b>{doc.usernombre}</li>
+                                      <li> <b>Unidad origen:</b> {doc.useroficina}</li>
+                                      <li> <b>Referencia:</b> {doc.categoria}</li>
+                                      <li> <b>Unidad destino:</b> {doc.destino}</li>
+                                      <li> <b>Nombre documento: </b> {doc.nombre}</li>
+                                      <li> <b>Documento: </b> <a href={doc.link} >{doc.picture}</a><br/></li>
+                                      <li> <b>Gestión: </b> {doc.gestion}</li>       
+                                      </ul>
+                                  </th>
+                                  <th>
+                                      <img src={doc.link} alt="No hay foto" height="250px" width="250px"/>
+                                  </th>
+                              </tr>
+                          </tbody>
+                          </table>
+                          ))}  
             </div>
             </div>
-            )
+            ) )
           
         ) : (
           <App/>

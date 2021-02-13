@@ -246,6 +246,57 @@ const getotherfiles = () => {
   return http.get("/documentother");
 }
 
+const uploadunidad = (nombre,code,descrip) => {
+          var axios = require('axios');
+          var qs = require('qs');
+          var data = qs.stringify({
+          'oficinanombre': nombre,
+          'oficinacode': code,
+          'oficinadescription': descrip,
+          });
+          var config = {
+            method: 'post',
+            url: 'http://localhost:8080/oficina',
+            headers: { 
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data : data
+          };
+
+          axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+}
+
+const uploadgestion = (nombre,descri) => {
+          var axios = require('axios');
+        var qs = require('qs');
+        var data = qs.stringify({
+        'nombre': nombre,
+        'descripcion': descri, 
+        });
+        var config = {
+          method: 'post',
+          url: 'http://localhost:8080/gestion',
+          headers: { 
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          data : data
+        };
+
+        axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+}
+
 export default {
   upload,
   getFiles,
@@ -257,4 +308,6 @@ export default {
   insertcategoria,
   externosuploadfile,
   getotherfiles,
+  uploadunidad,
+  uploadgestion,
 };

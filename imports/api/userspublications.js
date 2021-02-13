@@ -18,22 +18,27 @@ import { GestionCollection } from '../db/ListsCollection';
   }
 });*/
 
+Meteor.publish('users', function publishUsers(){
+  return Meteor.users.find();
+})
+
 Meteor.publish('categorias', function publishCategorias() {
   return CategoriasCollection.find();
-});
-
-Meteor.publish('documents', function publishDocuments() {
-  return DocumentsCollection.find();
 });
 
 Meteor.publish('oficinas', function publishOficinas() {
   return OficinasCollection.find();
 });
 
+Meteor.publish('gestiones', function publishGestiones() {
+  return GestionCollection.find();
+});
+
+Meteor.publish('documents', function publishDocuments() {
+  return DocumentsCollection.find();
+});
+
 Meteor.publish('otrosdocumentos', function publishOtrosDocumentos() {
   return OtrosDocumentos.find();
 });
 
-Meteor.publish('gestiones', function publishGestiones() {
-  return GestionCollection.find();
-});

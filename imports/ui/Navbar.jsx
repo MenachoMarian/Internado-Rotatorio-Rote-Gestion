@@ -21,9 +21,11 @@ return (
   <div>
     
       <div className="hero">
-
+        <div className="hero-content">
           <img className="hero-logo" src={imagenes[0].img} alt="UATF"/>
-          <h1 className ="hero-text">Universidad Autónoma Tomás Frías</h1>
+          <h3 className ="hero-text">Universidad Autónoma Tomás Frías</h3>
+        </div>
+
       </div>
     
   </div>

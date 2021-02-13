@@ -24,11 +24,13 @@ import { Button, Popover, PopoverHeader, PopoverBody,UncontrolledPopover } from 
 
 import { Nav } from "./Navbar";
 import { App } from './App';
+import {UIADMIN} from './UIADMIN'
 
 
 export const Categoriafiltrar = () => {
 
   const user = useTracker(() => Meteor.user());
+  const userId = useTracker(() => Meteor.userId());
   const idddd=  useTracker(() => Meteor.userId());
   const logout = () => Meteor.logout();
 
@@ -66,27 +68,33 @@ const documento=OtrosDocumentos.find({categoria: categoria},{sort: {_id:-1}}).fe
     <div>
        {user ? (
 
+        userId == "q3w3ELFTmkPApjQez" ?(
+          <UIADMIN/>
+        ):(
+
           user.profile.oficina == "SECRETARIA INGENIERIA DE SISTEMAS" ? (
           <Fragment>
                 <div className="Body">
                   <div className="hero">
                           <Nav/>  
                           <nav className="menu">
-                              <ol>
-                                  <li>
-                                    <Link to="/Home">Home</Link>
-                                    <Link to="/UploadFile">Documentos enviados</Link>
-                                    <Link to="/TextEditor">Editor</Link>
-                                  </li>
-                              </ol>
+                              <ul>
+                                <li><Link to="/Home">Home</Link></li>
+                                <li><Link to="/UploadFile">Enviar</Link></li>
+                                <li><Link to="/OtrosDocumentos">Recibidos</Link></li>
+                                <li><Link to="/TextEditor">Editor</Link></li>
+                                <li><a>{user.username} 🚪</a><br/>
+                                  <ul>
+                                    <li onClick={logout}><a>Salir</a></li>
+                                  </ul>
+                                </li>
+                              </ul>
                           </nav>
                   </div>
-                  <div className="user" onClick={logout}>
-                      {user.username} 🚪
-                </div>
+                  
               <div className="contenido">
-              <label> <b>SECRETARIA INGENIERIA DE SISTEMAS: RECEPCION DOCUMENTOS</b></label>
-              <div> Filtrar datos por:
+              <h2>SECRETARIA INGENIERIA DE SISTEMAS: RECEPCION DE DOCUMENTOS</h2>
+              <div>
                   <button className="btn btn-dark"><Link to="filtrarCategoria">Referencia</Link></button>
                         {"  "} 
                   <button className="btn btn-dark"><Link to="filtrarOrigen">Unidad origen</Link></button>
@@ -99,7 +107,7 @@ const documento=OtrosDocumentos.find({categoria: categoria},{sort: {_id:-1}}).fe
 
                       Referencia: <select 
                     required
-                    className="dropdown"
+                    className="select-box"
                     value={categoria}
                     onChange={(e) =>{setCategoria(e.currentTarget.value)
                     console.log(e.currentTarget.value);}}>
@@ -115,32 +123,35 @@ const documento=OtrosDocumentos.find({categoria: categoria},{sort: {_id:-1}}).fe
                       </select>
 
                       
-                              {documento.map(doc => (
-                                <ol key={doc._id}>
-
-                                    <li> <b> {doc.universidad}/{doc.facultad}/{doc.categoria}</b></li>
-                                    
-                                    <li> <b>Fecha entrega:</b> {moment(doc.register).format('DD-MM-YYYY HH:mm:ss')}</li>
-                                    <li> <b>Unidad origen:</b> {doc.useroficina}</li>
-                                    <li> <b>Usuario origen: </b>{doc.usernombre}</li>
-                                    <li> <b>Referencia:</b> {doc.categoria}</li>
-                                    <li> <b>Unidad destino: </b> {doc.destino}</li>
-                                    <li> <b>Nombre documento: </b> {doc.nombre}</li>
-                                    <li> <b>Documento: </b> <a href={doc.link} >{doc.picture}</a><br/></li>
-                                    
-
-                                    <Button id={doc.identi} type="button">
-                                        Vista previa
-                                    </Button>
-                                      
-                                    <UncontrolledPopover trigger="legacy" placement="right" target={doc.identi} className="my-custom-popover">
-                                        <PopoverHeader>{doc.nombre}</PopoverHeader>
-                                        <PopoverBody>
-                                            <img src={doc.link} alt="" height="350px" width="350px"/>
-                                        </PopoverBody>
-                                    </UncontrolledPopover>
-                                </ol>
-                              ))}
+        {documento.map(doc => (
+        <table className="table" key={doc._id}>
+            <thead >
+            <tr>
+                <th>{doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}/{doc.numero}</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        <ul >
+                        <li> <b> {doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}/{doc.numero}</b></li>                                    
+                        <li> <b>Fecha entrega:</b> {moment(doc.register).format('DD-MM-YYYY HH:mm:ss')}</li>
+                        <li> <b>Usuario origen: </b>{doc.usernombre}</li>
+                        <li> <b>Unidad origen:</b> {doc.useroficina}</li>
+                        <li> <b>Referencia:</b> {doc.categoria}</li>
+                        <li> <b>Unidad destino:</b> {doc.destino}</li>
+                        <li> <b>Nombre documento: </b> {doc.nombre}</li>
+                        <li> <b>Documento: </b> <a href={doc.link} >{doc.picture}</a><br/></li>
+                        <li> <b>Gestión: </b> {doc.gestion}</li>       
+                        </ul>
+                    </th>
+                    <th>
+                        <img src={doc.link} alt="No hay foto" height="250px" width="250px"/>
+                    </th>
+                </tr>
+            </tbody>
+            </table>
+            ))}
                       </div>
                   </div>
               </div>
@@ -149,7 +160,7 @@ const documento=OtrosDocumentos.find({categoria: categoria},{sort: {_id:-1}}).fe
           ) : (
               <Home /> 
           )
-          
+        )
         ) : (
           <App />
         )}
