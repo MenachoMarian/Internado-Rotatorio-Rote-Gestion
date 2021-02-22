@@ -16,12 +16,21 @@ export const App = () => {
   const logout = () => Meteor.logout();
   const userId = useTracker(() => Meteor.userId());
   console.log(Meteor.users.find(user).fetch());
+
+  const [rol,setRol] = useState(false);
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
   
   return (
     <div className="Body">
       
       {user ? (
-         userId == "q3w3ELFTmkPApjQez" ?(
+         rol ?(
           <UIADMIN/>
         ):(
           <Fragment>

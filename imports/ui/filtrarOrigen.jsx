@@ -36,6 +36,17 @@ export const Origenfiltrar = () => {
 
   const [oficina, setOficina]=useState();
 
+  //INICIO CONTROL ADMINISTRADOR
+  const [rol,setRol] = useState(false);
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
+  //FIN CONTROL ADMINISTRADOR
+
   const { docs, ofis } = useTracker(() => {
 
         const handlerdocs = Meteor.subscribe('otrosdocumentos');
@@ -68,7 +79,7 @@ const documento=OtrosDocumentos.find({useroficina: oficina},{sort: {_id:-1}}).fe
     <div>
        {user ? (
 
-          userId == "q3w3ELFTmkPApjQez" ?(
+          rol ?(
             <UIADMIN/>
           ):(
 
@@ -104,6 +115,8 @@ const documento=OtrosDocumentos.find({useroficina: oficina},{sort: {_id:-1}}).fe
 
                   <div className="lista-doc">
                       <div className="lista-doc-item">
+
+                        
 
                       Oficina: <select 
                     required

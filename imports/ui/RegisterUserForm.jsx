@@ -34,6 +34,17 @@ export const RegisterUserForm = () => {
     const userId = useTracker(() => Meteor.userId());
     //const [email, setEmail]=useState("");
 
+//CONTROL ADMINISTRADOR INICIO
+ const [rol,setRol] = useState(false);
+
+ React.useEffect(() => {
+   if(Roles.userIsInRole(Meteor.userId(),"admin")){
+     console.log("Entro aqui");
+     setRol(true);
+   }
+ });
+//CONTROL ADMINISTRADOR FIN
+
     const { ofis } = useTracker(() => {
         const handlerofis = Meteor.subscribe('oficinas');
         if(!handlerofis.ready()) {
@@ -72,7 +83,7 @@ export const RegisterUserForm = () => {
 return (
     <div>
           {user ? (
-            userId == "q3w3ELFTmkPApjQez" ?(
+            rol ?(
              <UIADMIN/>
             ):(
               <App/>

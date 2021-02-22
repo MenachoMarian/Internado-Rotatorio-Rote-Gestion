@@ -42,3 +42,14 @@ Meteor.publish('otrosdocumentos', function publishOtrosDocumentos() {
   return OtrosDocumentos.find();
 });
 
+Meteor.publish('usersroles', function publishUsersRoles() {
+  return Meteor.roles.find({}); 
+});
+
+Meteor.publish(null, function () {
+  if (this.userId) {
+    return Meteor.roleAssignment.find({ 'user._id': this.userId });
+  } else {
+    this.ready()
+  }
+})

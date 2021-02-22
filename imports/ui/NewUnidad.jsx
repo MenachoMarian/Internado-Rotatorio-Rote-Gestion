@@ -42,6 +42,17 @@ export const NewUnidad = () => {
     const[oficinadescri, setOficinadescri] = useState("");
     const history = useHistory();
 
+//CONTROL ADMINISTRADOR INICIO
+ const [rol,setRol] = useState(false);
+
+ React.useEffect(() => {
+   if(Roles.userIsInRole(Meteor.userId(),"admin")){
+     console.log("Entro aqui");
+     setRol(true);
+   }
+ });
+//CONTROL ADMINISTRADOR FIN
+
     const upload = () => {
         UploadService.uploadunidad(oficinanombre,oficinacode,oficinadescri)
         .then(response => {
@@ -53,7 +64,7 @@ export const NewUnidad = () => {
   return (
     <div>
         {user ? (
-            userId == "q3w3ELFTmkPApjQez" ?(
+            rol ?(
             <div className="Body">
                 <div className="hero">
                     <Nav/>

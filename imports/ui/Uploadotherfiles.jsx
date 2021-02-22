@@ -25,6 +25,7 @@ import { Button, Popover, PopoverHeader, PopoverBody,UncontrolledPopover } from 
 import { Nav } from "./Navbar";
 import { App } from './App';
 import {UIADMIN} from './UIADMIN'
+import { Home } from './Home';
 
 
 export const Uploadotherfiles = () => {
@@ -37,6 +38,17 @@ export const Uploadotherfiles = () => {
   const [documento, setDocumento] = useState([]);
   const [documentoBackup, setDocumentoBackup] = useState([]);
   const [textBuscar, setTextBuscar] = useState("");
+
+//CONTROL ADMINISTRADOR INICIO
+ const [rol,setRol] = useState(false);
+
+ React.useEffect(() => {
+   if(Roles.userIsInRole(Meteor.userId(),"admin")){
+     console.log("Entro aqui");
+     setRol(true);
+   }
+ });
+//CONTROL ADMINISTRADOR FIN
 
   const { docs } = useTracker(() => {
 
@@ -116,7 +128,7 @@ const filter =(event)=>{
     <div>
        {user ? (
 
-        userId == "q3w3ELFTmkPApjQez" ?(
+        rol ?(
           <UIADMIN/>
         ):(
 

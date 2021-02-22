@@ -41,6 +41,17 @@ export const NewGestion= () => {
     const[gestiondescri, setGestiondescri] = useState("");
     const history = useHistory();
 
+ //CONTROL ADMINISTRADOR INICIO
+ const [rol,setRol] = useState(false);
+
+ React.useEffect(() => {
+   if(Roles.userIsInRole(Meteor.userId(),"admin")){
+     console.log("Entro aqui");
+     setRol(true);
+   }
+ });
+//CONTROL ADMINISTRADOR FIN
+
     const upload = () => {
         UploadService.uploadgestion(gestionnombre,gestiondescri)
         .then(response => {
@@ -52,7 +63,7 @@ export const NewGestion= () => {
   return (
     <div>
         {user ? (
-            userId == "q3w3ELFTmkPApjQez" ?(
+            rol ?(
             <div className="Body">
                 <div className="hero">
                     <Nav/>

@@ -55,6 +55,16 @@ export const EditorTexto = () => {
   
   const [text, setText]=useState("");
 
+  //CONTROL PARA ADMIN
+  const [rol,setRol] = useState(false);
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
+//CONTROL PARA ADMIN
   
 
   const imprimir = (event,editor) => {
@@ -66,9 +76,6 @@ export const EditorTexto = () => {
 
   const handleSubmit = () => {
     //console.log(text);
-
-    
-
    
     UploadService.uploadtext(nombre,text)
     .then(response => {
@@ -93,7 +100,7 @@ export const EditorTexto = () => {
 
     {user ? (
 
-      userId == "q3w3ELFTmkPApjQez" ?(
+      rol ?(
         <UIADMIN/>
       ):(
       <Fragment>

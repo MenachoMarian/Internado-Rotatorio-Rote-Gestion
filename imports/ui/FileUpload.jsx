@@ -61,6 +61,17 @@ export const UploadFiles = () => {
   const idddd=  useTracker(() => Meteor.userId());
   
   const logout = () => Meteor.logout();
+
+  //CONTROL ADMIN INCIO
+  const [rol,setRol] = useState(false);
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
+  //CONTROL ADMIN FIN
   
   const { cats, docs, ofis, gests } = useTracker(() => {
         const handler = Meteor.subscribe('categorias');
@@ -179,7 +190,7 @@ useEffect(() => {
     <div>
        {user ? (
 
-          userId == "q3w3ELFTmkPApjQez" ?(
+          rol ?(
             <UIADMIN/>
           ):(
 

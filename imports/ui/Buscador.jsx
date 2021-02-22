@@ -39,6 +39,15 @@ export const Buscador = () => {
   const [documentoBackup, setDocumentoBackup] = useState([]);
   const [textBuscar, setTextBuscar] = useState("");
 
+  const [rol,setRol] = useState(false);
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
+
   React.useEffect(() => {
 
     UploadService.getFiles().then((response) => {
@@ -103,7 +112,7 @@ export const Buscador = () => {
     <div >
       {user ? (
 
-        userId == "q3w3ELFTmkPApjQez" ?(
+        rol?(
           <UIADMIN/>
         ):(
 

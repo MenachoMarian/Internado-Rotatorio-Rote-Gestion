@@ -36,6 +36,17 @@ export const Categoriafiltrar = () => {
 
   const [categoria, setCategoria]=useState();
 
+  //CONTROL ADMIN INICIO
+  const [rol,setRol] = useState(false);
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
+  //CONTROL ADMIN FIN
+
   const { docs, cats } = useTracker(() => {
 
         const handlerdocs = Meteor.subscribe('otrosdocumentos');
@@ -68,7 +79,7 @@ const documento=OtrosDocumentos.find({categoria: categoria},{sort: {_id:-1}}).fe
     <div>
        {user ? (
 
-        userId == "q3w3ELFTmkPApjQez" ?(
+        rol ?(
           <UIADMIN/>
         ):(
 

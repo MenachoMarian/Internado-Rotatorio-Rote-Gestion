@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Fragment } from 'react';
-import { useTracker } from 'meteor/react-meteor-data';
+import { useTracker, useEffect } from 'meteor/react-meteor-data';
 import { ListsCollection } from '../db/ListsCollection';
 import { List } from './List';
 import {Nav} from '../ui/Navbar';
@@ -34,20 +34,30 @@ export const Home = () => {
   const user = useTracker(() => Meteor.user());
   const userId = useTracker(() => Meteor.userId());
   const logout = () => Meteor.logout();
+  const [rol,setRol] = useState(false);
 
   console.log(user);
   console.log(userId);
+
+  /*const docs = useTracker(() => {
+    return Meteor.subscribe('roles');
+});*/
   
-   
- // const lists = useTracker(() => ListsCollection.find({},{ fields: { _id: 1 }}, { sort: { createdAt: 1 } }).fetch());
- 
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
+  
 
 return (
   <div>
 
       {user ? (
 
-        userId == "q3w3ELFTmkPApjQez" ?(
+rol?(
           <UIADMIN/>
         ):(
 

@@ -46,14 +46,23 @@ export const ExternosEnvio = () => {
   const [message, setMessage] = useState("");
   const [fileInfos, setFileInfos] = useState([]);
 
-
-
   const user = useTracker(() => Meteor.user());
   const idddd=  useTracker(() => Meteor.userId());
 
   const [documento,setDocumento]=useState([]);
   
   const logout = () => Meteor.logout();
+
+  //CONTROL ADMIN
+  const [rol,setRol] = useState(false);
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
+  //CONTROL ADMIN
   
   const { cats, docs, ofis } = useTracker(() => {
         const handler = Meteor.subscribe('categorias');
@@ -81,10 +90,7 @@ export const ExternosEnvio = () => {
   
     const docuserr=OtrosDocumentos.find({userId: idddd},{sort: {_id:-1}}).fetch();
   
-  useEffect(() => {
-    
-    
-  }, []);
+  
 
   const selectFile = (event) => {
     setSelectedFiles(event.target.files);
@@ -120,7 +126,7 @@ export const ExternosEnvio = () => {
     <div>
        {user ? (
 
-        idddd == "q3w3ELFTmkPApjQez" ?(
+        rol?(
           <UIADMIN/>
         ):(
 

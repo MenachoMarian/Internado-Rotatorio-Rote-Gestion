@@ -33,6 +33,17 @@ export const NewCategory = () => {
   console.log(user);
  // const lists = useTracker(() => ListsCollection.find({},{ fields: { _id: 1 }}, { sort: { createdAt: 1 } }).fetch());
 
+ //CONTROL ADMINISTRADOR INICIO
+ const [rol,setRol] = useState(false);
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
+ //CONTROL ADMINISTRADOR FIN
+
   
  const handleSubmit = () => {
 
@@ -65,7 +76,7 @@ return (
       <div className="Body">
         <div className="hero">
           <Nav/>
-          {userId == "q3w3ELFTmkPApjQez" ?(
+          {rol ?(
             <nav className="menu">
             <ul>
               <li><Link to="/Home">Home</Link></li>

@@ -37,6 +37,17 @@ export const ExternosRecepcion = () => {
   const idddd=  useTracker(() => Meteor.userId());
   
   const logout = () => Meteor.logout();
+
+  //CONTROL ADMIN INCIO
+  const [rol,setRol] = useState(false);
+
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
+  });
+  //CONTROL ADMIN FIN
   
   const { docss,ofis } = useTracker(() => {
 
@@ -77,7 +88,7 @@ export const ExternosRecepcion = () => {
   return (
     <div>
        {user ? (
-         userId == "q3w3ELFTmkPApjQez" ?(
+         rol ?(
           <UIADMIN/>
         ):(
 

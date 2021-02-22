@@ -23,9 +23,9 @@ Meteor.methods({
             oficina: oficina
         }
     });
-
-    Roles.addUsersToRoles(id,'admin');
-    //Roles.setUserRoles(id, 'admin')
+    console.log(id);
+    //Roles.createRole('normal-user');
+    Roles.setUserRoles(id, 'normal-user')
   },
 
   'otrosdocumentos.remove'(taskId) {
