@@ -4,11 +4,14 @@ import { Fragment } from 'react';
 import {useTracker} from 'meteor/react-meteor-data';
 import React, { useState, useEffect } from "react";
 import UploadService from "../services/FileUploadService";
+import axios from 'axios';
 import moment from 'moment';
 
 
-import { DocumentsCollection, OtrosDocumentos } from '../db/ListsCollection';
+import { DocumentsCollection } from '../db/ListsCollection';
 import { CategoriasCollection } from '../db/ListsCollection';
+import { OficinasCollection } from '../db/ListsCollection';
+import { GestionCollection } from '../db/ListsCollection';
 
 import {
     BrowserRouter as Router,
@@ -24,57 +27,52 @@ import { Button, Popover, PopoverHeader, PopoverBody,UncontrolledPopover } from 
 
 import { Nav } from "./Navbar";
 import { App } from './App';
-import {UIADMIN} from './UIADMIN'
+import { Pagination } from './Pagination';
 import { Home } from './Home';
+import {UIADMIN} from './UIADMIN'
 
 
-export const Uploadotherfiles = () => {
+export const BuscadorRecibidos = () => {
+
+
+    const[posts, setPosts] = useState([]);
+    const[loading, setloading] = useState(false);
+    const[currentPage, setCurrentPage] = useState(1);
+    const[postsPerPage, setPostsPerPage] = useState(4);
+
+    const [documento, setDocumento] = useState([]);
+  const [documentoBackup, setDocumentoBackup] = useState([]);
+  const [textBuscar, setTextBuscar] = useState("");
+
 
   const user = useTracker(() => Meteor.user());
   const userId = useTracker(() => Meteor.userId());
   const idddd=  useTracker(() => Meteor.userId());
+  
   const logout = () => Meteor.logout();
 
-  const [documento, setDocumento] = useState([]);
-  const [documentoBackup, setDocumentoBackup] = useState([]);
-  const [textBuscar, setTextBuscar] = useState("");
+  //CONTROL ADMIN INCIO
+  const [rol,setRol] = useState(false);
 
-//CONTROL ADMINISTRADOR INICIO
- const [rol,setRol] = useState(false);
-
- React.useEffect(() => {
-   if(Roles.userIsInRole(Meteor.userId(),"admin")){
-     console.log("Entro aqui");
-     setRol(true);
-   }
- });
-//CONTROL ADMINISTRADOR FIN
-
-  const { docs } = useTracker(() => {
-
-        const handlerdocs = Meteor.subscribe('otrosdocumentos');
-        if(!handlerdocs.ready()){
-          console.log("No documents");
-        }
-        const docs = OtrosDocumentos.find({},{sort: {_id:-1}}).fetch();
-        
-        return {docs};
-    });
- 
-  
-useEffect(() => {
-      UploadService.getotherfiles().then((response) => {
-        setDocumento(response.data);
-        setDocumentoBackup(response.data);
-        //console.log(response.data); 
-  
+  React.useEffect(() => {
+    if(Roles.userIsInRole(Meteor.userId(),"admin")){
+      console.log("Entro aqui");
+      setRol(true);
+    }
   });
-}, []);
+  //CONTROL ADMIN FIN
 
-  console.log(Meteor.userId())
-  //console.log(documentoBackup);
+  React.useEffect(() => {
 
-const filter =(event)=>{
+    UploadService.getFilesrecibido().then((response) => {
+      setDocumento(response.data);
+      setDocumentoBackup(response.data);
+      //console.log(response.data); 
+
+    });
+  }, []);
+
+  const filter =(event)=>{
     console.log(event.target.value);
     //OBTENER DATOS DE INPUT
     var text = event.target.value
@@ -84,6 +82,8 @@ const filter =(event)=>{
     console.log(data);
 
     const newData = data.filter(function(item){
+      //VARIABLE numero DEL DOCUMENTO
+      const itemNumero = item.numero.toString()
       //VARIABLE fecha DEL DOCUMENTO
       const itemFecha = //item.register.toString()
       moment(item.register).format('DD-MM-YYYY HH:mm:ss')
@@ -100,7 +100,8 @@ const filter =(event)=>{
       //VARIABLE gestion DEL DOCUMENTO
       //const itemGestion = item.gestion.toUpperCase()
       //  Juntamos los campos anteriores, para buscar todo
-      const itemData = itemFecha+" "
+      const itemData = itemNumero+" "
+                      +itemFecha+" "
                       +itemOrigen+" "
                       +itemReferencia+" "
                       +itemDestino+" "
@@ -117,71 +118,69 @@ const filter =(event)=>{
     setDocumento(newData)
     setTextBuscar(text)
   };
-
-  const borrar = (id) => {
-    console.log(id);
-    Meteor.call('otrosdocumentos.remove', id)
-  }
-
+  //FIN PAGINATION
 
   return (
     <div>
        {user ? (
 
-        rol ?(
-          <UIADMIN/>
-        ):(
+          rol ?(
+            <UIADMIN/>
+          ):(
 
           user.profile.oficina == "SECRETARIA INGENIERIA DE SISTEMAS" ? (
-          <Fragment>
+            <Fragment>
+              
                 <div className="Body">
                   <div className="hero">
-                          <Nav/>  
+                          <Nav/>
                           <nav className="menu">
-                            
                               <ul>
                               <li><Link to="/Home">Home</Link></li>
-                              <li><Link to="/FilesSend">Enviados</Link></li>
-                              <li><Link to="/FilesRecibidosLista">Recibidos</Link></li>
-                              <li><Link to="/OtrosDocumentos">Externos</Link></li>
-                              <li><Link to="/TextEditor">Editor</Link></li>
-                                <li><a>{user.username} 🚪</a><br/>
+                            <li><Link to="/FilesSend">Enviados</Link></li>
+                            <li><Link to="/FilesRecibidosLista">Recibidos</Link></li>
+                            <li><Link to="/OtrosDocumentos">Externos</Link></li>
+                            <li><Link to="/TextEditor">Editor</Link></li>
+                              <li><a>{user.username} 🚪</a><br/>
                                   <ul>
                                     <li onClick={logout}><a>Salir</a></li>
                                   </ul>
                                 </li>
-                                  
                               </ul>
                           </nav>
-                  </div>
-                  
-              <div className="contenido">
-              <h2>SECRETARIA INGENIERIA DE SISTEMAS: RECEPCION DE DOCUMENTOS</h2>
+                  </div> 
 
-                  <div className="lista-doc">
-                    <div className="botones filtrado">
+<div className="menu_simple">
+    <ul>
+    <li><Link to="/FilesRecibidos">Nuevo</Link></li>
+    </ul>
+</div>
 
-                    <button className="btn btn-dark"><Link to="filtrarCategoria">Referencia</Link></button>
-                              {"  "} 
-                        <button className="btn btn-dark"><Link to="filtrarCategoria">Unidad origen</Link></button>
-                        {"  "} 
-                        <button className="btn btn-dark"><Link to="/OtrosDocumentos">Todos</Link></button>
 
-                    <input 
-                        placeholder="Buscar documentos enviados..." 
-                        className="form-control"
-                        value={textBuscar}
-                        onChange={(e) =>{setTextBuscar(e.currentTarget.value)
-                        filter(e);}}
-                      />
-                    </div>
-                      <div className="lista-doc-item">
-                
+        <div className="contenido">
+
+        <div className="botones filtrado">
+            <p>
+
+                <input 
+                    placeholder="Buscar documentos recibidos..." 
+                    className="form-control"
+                    value={textBuscar}
+                    onChange={(e) =>{setTextBuscar(e.currentTarget.value)
+                    filter(e);}}
+                />
+            </p>
+        </div>
+        
+
     {documento.map(doc => (
-        <table className="table" key={doc._id}>
+      <div className="card" key={doc._id}>
+
+        <table className="table" >
             <thead >
             <tr>
                 <th>{doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}/{doc.numero}</th>
+                
             </tr>
             </thead>
             <tbody>
@@ -198,7 +197,6 @@ const filter =(event)=>{
                         <li> <b>Documento: </b> <a href={doc.link} >{doc.picture}</a><br/></li>
                         <li> <b>Gestión: </b> {doc.gestion}</li>       
                         </ul>
-                        
                     </th>
                     <th>
                         <img src={doc.link} alt="No hay foto" height="250px" width="250px"/>
@@ -206,18 +204,16 @@ const filter =(event)=>{
                 </tr>
             </tbody>
             </table>
+      </div>
             ))}
-                      </div>
-                  </div>
-              </div>
-            </div>
-          </Fragment>    
-          ) : (
-              <Home /> 
-          )
           
-        )
-
+        </div>
+            </div>
+            </Fragment>    
+            ) : (
+                <Home /> 
+            )
+          )
         ) : (
           <App />
         )}

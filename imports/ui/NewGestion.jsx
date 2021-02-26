@@ -78,51 +78,48 @@ export const NewGestion= () => {
                         </ul>
                     </nav>
                 </div>
-                <div className="contenido">
-                    <h2>
-                        REGISTRO GESTION
-                    </h2>
-                    <div className="insert-doc">
-                    <form className="doc-form" >
-                  
-                  <fieldset>
-                    <p><label>Nombre gestion: </label></p>
-                    <p>
-                       <input 
-                       placeholder="EJ: 01/2020"
-                        required
-                        type="text"
-                        value={gestionnombre}
-                        onChange={(e) => setGestionnombre(e.currentTarget.value)}
-                       />
-                    </p>
-  
-                    <p><label>Descripción: </label></p>
-                    <p>
-                       <input 
-                        required
-                        type="text"
-                        value={gestiondescri}
-                        onChange={(e) => setGestiondescri(e.currentTarget.value)}
-                       />
-                    </p>
-  
-                    <p>
-                    <button
-                            //className="btn btn-dark"
-                            type="submit"
-                            disabled={!gestionnombre, !gestiondescri}
-                            onClick={upload}
-                        >
-                            Cargar
-                        </button>
-                    </p>
-                  </fieldset>
-             </form> <br/>
 
-             <h4>La ultima gestion registrada será la que figure en los documentos</h4>
-                    </div>
-                </div>
+                
+          <div className="container-formulario">
+              <h1>&bull; Agregar Gestion &bull;</h1>
+                    <div className="underline"></div>
+                    <form className="formulario-enviar-doc">
+                      <div>
+                          <input 
+                          placeholder="EJ: 01/2020"
+                            required
+                            type="text"
+                            value={gestionnombre}
+                            onChange={(e) => setGestionnombre(e.currentTarget.value)}
+                          />
+                      </div>   
+
+                      <div>
+                          <input 
+                            placeholder="DESCRIPCIÓN"
+                            required
+                            type="text"
+                            value={gestiondescri}
+                            onChange={(e) => setGestiondescri(e.currentTarget.value)}
+                          />
+                      </div>
+
+                      <div>
+                          <button
+                                //className="btn btn-dark"
+                                className="boton-formulario"
+                                type="submit"
+                                disabled={!gestionnombre, !gestiondescri}
+                                onClick={upload}
+                            >
+                                Enviar
+                            </button> 
+                      </div> <br/>
+
+                      <h4>La ultima gestion registrada será la que figure en los documentos</h4>
+
+                    </form>
+              </div>
             </div>
             ):(
             <Fragment>

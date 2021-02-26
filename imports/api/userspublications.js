@@ -4,6 +4,7 @@ import { DocumentsCollection } from '../db/ListsCollection';
 import { OficinasCollection } from '../db/ListsCollection';
 import { OtrosDocumentos } from '../db/ListsCollection';
 import { GestionCollection } from '../db/ListsCollection';
+import { DocumentRecibidosCollection } from '../db/ListsCollection';
 
 
 //const insertList = listText => ListsCollection.insert({ text: listText });
@@ -53,3 +54,7 @@ Meteor.publish(null, function () {
     this.ready()
   }
 })
+
+Meteor.publish('documentsrecibidos', function publishDocumentsRecibidos() {
+  return DocumentRecibidosCollection.find();
+});

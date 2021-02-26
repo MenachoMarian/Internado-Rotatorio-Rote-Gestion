@@ -11,6 +11,7 @@ import { DocumentsCollection } from '../db/ListsCollection';
 import { CategoriasCollection } from '../db/ListsCollection';
 import { OficinasCollection } from '../db/ListsCollection';
 import { GestionCollection } from '../db/ListsCollection';
+import { DocumentRecibidosCollection } from '../db/ListsCollection';
 
 import {
     BrowserRouter as Router,
@@ -31,7 +32,7 @@ import { Home } from './Home';
 import {UIADMIN} from './UIADMIN'
 
 
-export const UploadFiles = () => {
+export const UploadFilesRecibidos = () => {
 
   
   const [nombre, setNombre] = useState("");
@@ -80,11 +81,11 @@ export const UploadFiles = () => {
         }
         const cats = CategoriasCollection.find().fetch();
 
-        const handlerdocs = Meteor.subscribe('documents');
+        const handlerdocs = Meteor.subscribe('documentsrecibidos');
         if(!handlerdocs.ready()){
           console.log("No documents");
         }
-        const docs = DocumentsCollection.find().count();
+        const docs = DocumentRecibidosCollection.find().count();
 
 
         const handlerofis = Meteor.subscribe('oficinas');
@@ -131,7 +132,7 @@ useEffect(() => {
     let currentFile = selectedFiles[0];
 
 
-    UploadService.uploadfile(iden,nombre,type,currentFile,user._id, user.username , oficina ,docs+1, destino, gestion)
+    UploadService.uploadfilerecibido(iden,nombre,type,currentFile,user._id, user.username , oficina ,docs+1, destino, gestion)
     .then(response => {
       console.log(response);
       const identificador = response.data[0].identi;
@@ -203,10 +204,10 @@ useEffect(() => {
                           <nav className="menu">
                               <ul>
                               <li><Link to="/Home">Home</Link></li>
-                              <li><Link to="/FilesSend">Enviados</Link></li>
-                              <li><Link to="/FilesRecibidosLista">Recibidos</Link></li>
-                              <li><Link to="/OtrosDocumentos">Externos</Link></li>
-                              <li><Link to="/TextEditor">Editor</Link></li>
+                                <li><Link to="/FilesSend">Enviados</Link></li>
+                                <li><Link to="/FilesRecibidosLista">Recibidos</Link></li>
+                                <li><Link to="/OtrosDocumentos">Externos</Link></li>
+                                <li><Link to="/TextEditor">Editor</Link></li>
                               <li><a>{user.username} 🚪</a><br/>
                                   <ul>
                                     <li onClick={logout}><a>Salir</a></li>
@@ -215,7 +216,6 @@ useEffect(() => {
                               </ul>
                           </nav>
                   </div> 
-                 
 
 <div className="menu_simple">
 <ul>
@@ -223,11 +223,8 @@ useEffect(() => {
 </ul>
 </div>
 
-
-
-              <div className="container-formulario">
-              <h1>&bull; Documentos enviados &bull;</h1>
-              <h1>Número documento:  {docs+1}</h1>
+         <div className="container-formulario">
+              <h1>&bull; Documentos recibidos &bull;</h1>
 
                     <div className="underline"></div>
                     <form className="formulario-enviar-doc">
@@ -285,7 +282,7 @@ useEffect(() => {
                           value={destino}
                           onChange={(e) =>{setDestino(e.currentTarget.value)
                           console.log(e.currentTarget.value);}}>
-                          <option value="Undefined" defaultValue> SELECCIONE UNIDAD DE DESTINO</option>
+                          <option value="Undefined" defaultValue> SELECCIONAR UNIDAD DE ORIGEN</option>
                               {ofis.map(ofi => (
                           <option
                               key={ofi.oficinanombre} 
@@ -328,12 +325,9 @@ useEffect(() => {
                         </button>
                       </div>
 
-                    </form>
+                    </form> 
               </div>
-
-
-
-
+                
             </div>
             </Fragment>    
             ) : (

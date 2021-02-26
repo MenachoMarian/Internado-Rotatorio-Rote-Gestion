@@ -90,9 +90,10 @@ return (
           ):(
              <nav className="menu">
                 <ul>
-                  <li><Link to="/Home">Home</Link></li>
-                  <li><Link to="/UploadFile">Enviar</Link></li>
-                  <li><Link to="/OtrosDocumentos">Recibidos</Link></li>
+                <li><Link to="/Home">Home</Link></li>
+                  <li><Link to="/FilesSend">Enviados</Link></li>
+                  <li><Link to="/FilesRecibidosLista">Recibidos</Link></li>
+                  <li><Link to="/OtrosDocumentos">Externos</Link></li>
                   <li><Link to="/TextEditor">Editor</Link></li>
                   <li><a>{user.username} 🚪</a><br/>
                     <ul>
@@ -103,51 +104,40 @@ return (
               </nav>
           )}
         </div>
-      
-      <div  className="contenido">  
-       <div className="insert-doc">
-        <form className="doc-form" onSubmit={handleSubmit}>
 
-         <h2> REGISTRO: NUEVA CATEGORIA </h2> 
+      <div className="container-formulario">
+              <h1>&bull; Agregar referencia &bull;</h1>
+                    <div className="underline"></div>
+                    <form className="formulario-enviar-doc" onSubmit={handleSubmit}>
+                      <div>
+                      <input 
+                        placeholder="NOMBRE REFERENCIA"
+                        type="text"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                      />
+                      </div>   
 
-          <fieldset>
-            <p><label>Nombre categoria:</label></p>
-            <p>
-              <input 
-                type="text"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-              />
-            </p>
+                      <div>
+                        <input 
+                          placeholder="CODIGO DE REFERENCIA"
+                          type="text"
+                          value={code}
+                          onChange={(e) => setCode(e.target.value)}
+                        />
+                      </div>
 
+                      <div>
+                          <button
+                            className="boton-formulario"
+                            type="submit" >
+                              Enviar
+                          </button> 
+              
+                      </div>
 
-            <p><label>Código categoria:</label></p>
-            <p>
-              <input 
-                type="text"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
-            </p>
-
-            <p>
-              <button
-                type="submit" >
-                  Enviar
-              </button>  
-            </p>
-
-            <p>
-              <button 
-              type="submit">
-                  <Link to="/UploadFile">Cancelar</Link>
-              </button> 
-            </p> 
-          </fieldset>
-
-                </form>
-        </div> 
-      </div>
+                    </form>
+              </div>
     </div>
         </Fragment>    
         ) : (

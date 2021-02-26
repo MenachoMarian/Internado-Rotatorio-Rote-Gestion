@@ -17,6 +17,11 @@ import {Categoriafiltrar} from '../ui/filtrarCategoria';
 import {Origenfiltrar} from '../ui/filtrarOrigen';
 import {NewUnidad} from '../ui/NewUnidad';
 import {NewGestion} from '../ui/NewGestion';
+import {Camera} from '../ui/Camera';
+import {FilesSend} from '../ui/FilesSend';
+import {UploadFilesRecibidos} from '../ui/FilesRecibidos';
+import {FilesRecibidosLista} from '../ui/FileRecibidosLista';
+import {BuscadorRecibidos} from '../ui/BuscadorRecibidos';
 import {Pagination} from '../ui/Pagination';
 
 import {Scanner} from '../ui/Scanner';
@@ -87,6 +92,21 @@ export const Rutas = () => {
             </Route>
             <Route exact path="/NewGestion">
                 <NewGestion/>
+            </Route>
+            <Route exact path="/Camera">
+                <Camera/>
+            </Route>
+            <Route exact path="/FilesSend">
+                <FilesSend/>
+            </Route>
+            <Route exact path="/FilesRecibidos">
+                <UploadFilesRecibidos/>
+            </Route>
+            <Route exact path="/FilesRecibidosLista">
+                <FilesRecibidosLista/>
+            </Route>
+            <Route exact path="/BuscadorRecibidos">
+                <BuscadorRecibidos/>
             </Route>
             
             

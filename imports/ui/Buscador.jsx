@@ -124,8 +124,9 @@ export const Buscador = () => {
                           <nav className="menu">
                               <ul>
                               <li><Link to="/Home">Home</Link></li>
-                              <li><Link to="/UploadFile">Enviar</Link></li>
-                              <li><Link to="/OtrosDocumentos">Recibidos</Link></li>
+                              <li><Link to="/FilesSend">Enviados</Link></li>
+                              <li><Link to="/FilesRecibidosLista">Recibidos</Link></li>
+                              <li><Link to="/OtrosDocumentos">Externos</Link></li>
                               <li><Link to="/TextEditor">Editor</Link></li>
                               <li><a>{user.username} 🚪</a><br/>
                                   <ul>
@@ -135,20 +136,28 @@ export const Buscador = () => {
                               </ul>
                           </nav>
           </div>
-          <div className="contenido">
 
-           <div className="lista-doc">
-                      <div className="lista-doc-item">
-                      <input 
+          <div className="menu_simple">
+              <ul>
+              <li><Link to="/UploadFile">Nuevo</Link></li>
+              </ul>
+          </div>
+
+          <div className="contenido">
+            <p>
+                     <input 
                         placeholder="Buscar documentos enviados..." 
                         className="form-control"
                         value={textBuscar}
                         onChange={(e) =>{setTextBuscar(e.currentTarget.value)
                         filter(e);}}
                       />
-                      
+            </p>
+
                       {documento.map(doc => (
-                      <table className="table" key={doc._id}>
+                        <div className="card" key={doc._id}>
+
+                      <table className="table" >
                           <thead >
                           <tr>
                               <th>{doc.universidad}/{doc.facultad}/{doc.carrera}/{doc.categoria}/{doc.numero}</th>
@@ -175,10 +184,11 @@ export const Buscador = () => {
                               </tr>
                           </tbody>
                           </table>
+                        </div>
                           ))}
                           
-                      </div>
-                  </div> 
+                      
+                 
           </div>
           </div>
         </Fragment>    )

@@ -79,58 +79,53 @@ export const NewUnidad = () => {
                         </ul>
                     </nav>
                 </div>
-                <div className="contenido">
-                    <h2>
-                        REGISTRO UNIDADES EXTERNAS
-                    </h2>
-                    <div className="insert-doc">
-                    <form className="doc-form" >
-                  
-                  <fieldset>
-                    <p><label>Nombre unidad: </label></p>
-                    <p>
-                       <input 
-                        required
-                        type="text"
-                        value={oficinanombre}
-                        onChange={(e) => setOficinanombre(e.currentTarget.value)}
-                       />
-                    </p>
-  
-                    <p><label>Código unidad:</label></p>
-                    <p>
-                       <input 
-                        required
-                        type="text"
-                        value={oficinacode}
-                        onChange={(e) => setOficinacode(e.currentTarget.value)}
-                       />
-                    </p>
-  
-                    <p><label>Descripción unidad:</label></p>
-                    <p>
-                    <input 
+         <div className="container-formulario">
+              <h1>&bull; Agregar UNIDAD &bull;</h1>
+                    <div className="underline"></div>
+                    <form className="formulario-enviar-doc">
+                      <div>
+                        <input
+                          placeholder="NOMBRE DE UNIDAD" 
+                          required
+                          type="text"
+                          value={oficinanombre}
+                          onChange={(e) => setOficinanombre(e.currentTarget.value)}
+                        />
+                      </div>   
+
+                      <div>
+                        <input 
+                          placeholder="CODIGO DE UNIDAD EJ: DECANATURA -> DCN"
+                          required
+                          type="text"
+                          value={oficinacode}
+                          onChange={(e) => setOficinacode(e.currentTarget.value)}
+                        /> 
+                      </div>
+
+                      <div>
+                      <input 
+                        placeholder="DESCRIPCION DE LA UNIDAD"
                         required
                         type="text"
                         value={oficinadescri}
                         onChange={(e) => setOficinadescri(e.currentTarget.value)}
                        /> 
-                    </p>
-  
-                    <p>
-                    <button
-                            //className="btn btn-dark"
-                            type="submit"
-                            disabled={!oficinanombre, !oficinacode, !oficinadescri}
-                            onClick={upload}
-                        >
-                            Cargar
-                        </button>
-                    </p>
-                  </fieldset>
-             </form>
-                    </div>
-                </div>
+                      </div> 
+                      <div>
+                          <button
+                                //className="btn btn-dark"
+                                className="boton-formulario"
+                                type="submit"
+                                disabled={!oficinanombre, !oficinacode, !oficinadescri}
+                                onClick={upload}
+                            >
+                                Cargar
+                            </button>
+                      </div>
+
+                    </form>
+              </div>
             </div>
             ):(
             <Fragment>

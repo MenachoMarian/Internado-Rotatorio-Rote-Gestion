@@ -297,6 +297,65 @@ const uploadgestion = (nombre,descri) => {
         });
 }
 
+//ARCHIVOS RECIBIDOS FORMULARIO
+const uploadfilerecibido =(id,nombre,type,file,userId,usernombre,unidad,num, destino,gestion) => {
+  
+  var axios = require('axios');
+  var qs = require('qs');
+  var data = qs.stringify({
+    'nombre': nombre,
+    'categoria': type,
+    'identi':id,
+    'userId': userId,
+    'usernombre': usernombre,
+    'useroficina':unidad,
+    'numero':num,
+    'destino':destino,
+    'gestion': gestion,
+    'universidad':'UATF',
+    'facultad':'DCN',
+    'carrera':'CIS',
+    
+    //'numero':number,
+  });
+
+
+  var config = {
+    method: 'post',
+    url: 'http://localhost:8080/documentorecibido',
+    headers: { 
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    data : data
+  };
+  
+  axios(config)
+  .then(function (response) {
+    console.log(JSON.stringify(response.data));
+
+
+    let formData = new FormData();
+
+    formData.append("file", file); 
+  
+    return http.post("/documentorecibido/uploadImg?identi="+id, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+}
+
+const getFilesrecibido = () => {
+  return http.get('/documentorecibido');
+};
+
+//FIN ARCHIVOS RECIBIDOS FORMULARIO
+
 export default {
   upload,
   getFiles,
@@ -310,4 +369,6 @@ export default {
   getotherfiles,
   uploadunidad,
   uploadgestion,
+  uploadfilerecibido,
+  getFilesrecibido,
 };

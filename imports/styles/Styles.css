@@ -489,10 +489,10 @@ ul {
   margin-right: auto;
   max-width: 90%;
 
-  background: #080706;
+  background: white;
   border-radius: 20px 20px 20px 20px;
   padding: 20px 26px;
-  color: #fff;
+  color: #000;
 }
 
 .table tr {
@@ -501,7 +501,7 @@ ul {
   background: transparent;
   /*border: 1px solid rgba(255, 255, 255, 0.6);*/
   border-radius: 2px;
-  color: #fff;
+  color: #000;
   font-family: "Roboto Slab", "Noto Sans", sans-serif;
   font-size: 16px;
   font-weight: 400;
@@ -534,4 +534,322 @@ ul {
   float: left;
   margin-left: 0;
   width: 70%;
+}
+
+/*26/20/2021*/
+.container-formulario {
+  border: solid 3px #474544;
+  max-width: 768px;
+  margin: 60px auto;
+  position: relative;
+}
+
+.container-formulario h1 {
+  color: #474544;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 7px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.underline {
+  border-bottom: solid 2px #474544;
+  margin: -0.512em auto;
+  width: 80px;
+}
+
+.formulario-enviar-doc {
+  padding: 37.5px;
+  margin: 50px 0;
+}
+
+.formulario-enviar-doc input[type="text"],
+[type="file"],
+select {
+  background: none;
+  border: none;
+  border-bottom: solid 2px #474544;
+  color: #474544;
+  font-size: 1em;
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin: 0em 0 1.875em 0;
+  padding: 0 0 0.875em 0;
+  text-transform: uppercase;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.formulario-enviar-doc input [type="text"]:focus,
+[type="file"]:focus {
+  outline: none;
+  padding: 0 0 0.875em 0;
+}
+
+.formulario-enviar-doc select {
+  background: url("https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-32.png")
+    no-repeat right;
+  outline: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.formulario-enviar-doc select::-ms-expand {
+  display: none;
+}
+
+.formulario-enviar-doc ::-webkit-input-placeholder {
+  color: #474544;
+}
+
+.formulario-enviar-doc :-moz-placeholder {
+  color: #474544;
+  opacity: 1;
+}
+
+.formulario-enviar-doc ::-moz-placeholder {
+  color: #474544;
+  opacity: 1;
+}
+
+.formulario-enviar-doc :-ms-input-placeholder {
+  color: #474544;
+}
+.formulario-enviar-doc .boton-formulario {
+  background: none;
+  border: solid 2px #474544;
+  color: #474544;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Helvetica", Arial, sans-serif;
+  font-size: 0.875em;
+  font-weight: bold;
+  outline: none;
+  padding: 20px 35px;
+  text-transform: uppercase;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.formulario-enviar-doc .boton-formulario:hover {
+  background: #474544;
+  color: #f2f3eb;
+}
+
+@media screen and (max-width: 768px) {
+  .container-formulario {
+    margin: 20px auto;
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container-formulario h1 {
+    font-size: 26px;
+  }
+
+  .underline {
+    width: 68px;
+  }
+
+  .boton-formulario {
+    padding: 15px 25px;
+  }
+}
+@media screen and (max-width: 420px) {
+  .container-formulario h1 {
+    font-size: 18px;
+  }
+
+  .underline {
+    width: 53px;
+  }
+
+  .formulario-enviar-doc input[type="text"],
+  [type="file"],
+  select {
+    font-size: 0.875em;
+  }
+}
+
+.subject {
+  width: 100%;
+}
+
+.name {
+  width: 100%;
+}
+
+/*MENU LATERAL 26/02/2021*/
+.navigationMenu li {
+  list-style: none;
+  height: 39px;
+  padding: 2px;
+  width: 40px;
+  background-color: #474544;
+  border-radius: 3px;
+}
+.navigationMenu img {
+  height: 34px;
+  width: 36px;
+  border-radius: 2px;
+  float: center;
+}
+
+.navigationMenu span {
+  /* Container properties */
+  width: 0;
+  left: 38px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+
+  /* Text properties */
+  font-family: "Myriad Pro", Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+  line-height: 39px;
+
+  /* CSS3 Transition: */
+  -webkit-transition: 0.25s;
+
+  /* Future proofing (these do not work yet): */
+  -moz-transition: 0.25s;
+  transition: 0.25s;
+}
+
+.navigationMenu a {
+  /* The background sprite: */
+  background: url("images/carta.jpg") no-repeat;
+
+  height: 39px;
+  width: 38px;
+  display: block;
+  position: relative;
+  transform: none;
+}
+
+/* General hover styles */
+
+.navigationMenu a:hover span {
+  width: auto;
+  padding: 0 20px;
+  overflow: visible;
+}
+.navigationMenu a:hover {
+  text-decoration: none;
+
+  /* CSS outer glow with the box-shadow property */
+  -moz-box-shadow: 0 0 5px #9ddff5;
+  -webkit-box-shadow: 0 0 5px #9ddff5;
+  box-shadow: 0 0 5px #9ddff5;
+}
+
+/*MENU SIMPLE*/
+
+/* CSSTerm.com Simple CSS menu */
+
+.menu_simple ul {
+  margin: 0;
+  padding: 0;
+  width: 100px;
+  list-style-type: none;
+}
+
+.menu_simple ul li a {
+  text-decoration: none;
+  color: white;
+  padding: 10.5px 11px;
+  background-color: #080706;
+  display: block;
+}
+
+.menu_simple ul li a:visited {
+  color: white;
+}
+
+.menu_simple ul li a:hover,
+.menu_simple ul li .current {
+  color: #080706;
+  background-color: #efefef;
+}
+
+.menu_simple li {
+  border-radius: 3px;
+}
+
+/*BUSCADOR*/
+
+/*TRAJETAS*/
+
+.card {
+  background-color: var(--background);
+  display: block;
+  width: inherit;
+  min-height: 90px;
+  border: 3px solid var(--primary);
+  padding: 5px;
+  margin: calc(10vh - 30px) auto 0 auto;
+  box-shadow: 10px -10px 0 -3px var(--background), 10px -10px var(--back),
+    20px -20px 0 -3px var(--background), 20px -20px var(--back),
+    30px -30px 0 -3px var(--background), 30px -30px var(--back);
+  transition: box-shadow 1s, top 1s, left 1s;
+  position: relative;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.card:hover {
+  top: -40px;
+  left: 40px;
+  box-shadow: 0 0 0 -3px var(--background), 0 0 0 0 var(--back),
+    0 0 0 -3px var(--background), 0 0 0 0 var(--back),
+    0 0 0 -3px var(--background), 0 0 0 0 var(--back);
+}
+
+:root {
+  --primary: #555bff;
+  --secondary: #22d2a0;
+  --background: #efefef;
+  --green: #1fc11b;
+  --yellow: #ffd913;
+  --orange: #ff9c55;
+  --red: #ff5555;
+  --back: #080706;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.card p {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.card h2 {
+  font-size: 14px;
+  font-family: "Archivo Black", "Archivo", sans-serif;
+  font-weight: normal;
 }

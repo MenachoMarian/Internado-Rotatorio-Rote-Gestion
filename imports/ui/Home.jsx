@@ -70,8 +70,9 @@ rol?(
               <nav className="menu">
                 <ul>
                   <li><Link to="/Home">Home</Link></li>
-                  <li><Link to="/UploadFile">Enviar</Link></li>
-                  <li><Link to="/OtrosDocumentos">Recibidos</Link></li>
+                  <li><Link to="/FilesSend">Enviados</Link></li>
+                  <li><Link to="/FilesRecibidosLista">Recibidos</Link></li>
+                  <li><Link to="/OtrosDocumentos">Externos</Link></li>
                   <li><Link to="/TextEditor">Editor</Link></li>
                   <li><a>{user.username} 🚪</a><br/>
                     <ul>
@@ -100,11 +101,10 @@ rol?(
           )}
         </div>
 
-      <div  className="contenido">   
-          <div className="lista-doc">
-                <h1>Holi</h1>
-          </div>
-      </div>
+        <div className="container-formulario">
+              <h1>&bull; Sistema de control de archivos &bull;</h1>
+                    <div className="underline"></div>        
+        </div>
     </div>
         </Fragment>  )
         
